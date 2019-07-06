@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+  class App extends React.Component{
+
+    render(){
+      return(
+        <div>
+          {this.props.first}
+          <h1>组件内标题</h1>
+          <p>组件内段落</p>  
+          {/*this.props.children代表组件使用时已有的内容  children是默认属性  代表组件内的子节点 children只收所有的节点
+            想分开放就自己定义属性   属性内容是可以随意什么的  也可以放标签  例如： first={<h3>组件外的内容...</h3>
+          
+          */}
+          {this.props.children}
+          {this.props.last}
+        </div>
+      )
+    }
+
+    //class Child extends App  没有这种说法  子组件继承父组件  React里只有包含关系  继承关系就是包含关系
+
+  }
+    
+    
+
+
+    ReactDOM.render(<App first={<h3>组件外的内容...</h3>} last={<section>组件外的section</section>}><figure>默认的内容...</figure></App>,document.getElementById('root'))
+    //这时候h3里的内容是无法显示的  被上面的div替换了  vue里要保留是用slot
+    //react里用this.props.children
+
+    </script>
+
+</body>
+</html>
+  
+</body>
+</html>

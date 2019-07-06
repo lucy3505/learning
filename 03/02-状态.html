@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //React 中的MVVM
+    //State的特点
+    //1.当组件内的数据需要发生改变，而且该数据改变会导致视图更新，这个数据应该用state存储
+    //2。state是组件内部所持有的，其他的组件无法访问，但是组件可以选择是否把状态数据传给子组件，数据流是自上而下的
+    //3.state只能在构造函数中赋值（初始化），不是所有数据都用state去存，只有要导致视图更新的数据用state去存，以后要修改sate只能通过setState方法修改，react会合并到一个setState去更新视图
+    //4.setState是异步操作，即状态的更新是异步
+    //5.this.setState修改对象或数组数据时尽量将状态得对象和数组得地址修改
+      class App extends React.Component{
+        //在构造函数中初始化state
+        constructor(props){
+          super(props)
+          this.state={
+            count:2
+          }
+ 
+        }
+        change=()=>{
+          //setState操作是异步的，所以尽量不要用下面的方式写
+          // this.setState({
+          //   count:this.state.count+this.props.add
+          // })
+          //preState是上一次的状态 
+          //下面这个方法能保证这次变化之前的上一次状态，这种写法能防止异步操作的干扰，这种写法一定要有return，否则等于没修改
+          this.setState(function(preState，props) {
+            //参数1：旧的状态
+            //参数2：当前组件的props属性对象
+            return {
+              count:preState.count+props.add
+            }
+          })
+        }
+        render(){
+          return (
+            <div>
+              {this.state.count}
+              {/*获取状态*/}
+              <button onClick={this.change}>点击递增</button>
+            
+            </div>
+          )
+        }
+
+
+      }
+       
+        
+     
+
+    ReactDOM.render(
+      <div><App add={11}/></div>,document.getElementById('root'))
+
+    </script>
+</body>
+</html>

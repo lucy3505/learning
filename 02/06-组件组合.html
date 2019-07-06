@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //props用于接受组件的属性的对象
+   class App extends React.Component{
+    //必须要设置render函数
+
+    //fn本质上实在App.prototype上，new App()的时候就能调用到fn,this就能找找到fn
+    fn(a){
+         alert(a)
+       }
+     render() {
+         
+       return (
+         <div>
+            <h1>App标题</h1>
+            {/*属性命名用驼峰*/}
+            <Child myContent={this.props.content} show={this.fn}></Child>
+          </div>
+       )
+     }
+   }
+
+//child也是继承react.Component不是继承App  App里的值会自己传过来
+//对child来说，他传过来的属性是myContent
+//传函数对象会有this问题
+   class Child extends React.Component{
+     //定义render函数
+     render(){
+       //定义Child模板
+       return(<section>
+        <p>{this.props.myContent}</p>
+        {/*通过这种方式可以把子组件的值传给父组，通过函数对象*/}
+        <button onClick={()=>{this.props.show('hello,i am child')}}>子组件内容...</button>
+        </section>)
+     }
+   }
+
+    ReactDOM.render(
+      <App  content='传递给Child的内容'/>,document.getElementById('root'))
+   
+
+
+      //组件的调用过程
+      //1）调用ReactDOM.render函数，把组件上的属性转为JSON对象
+      //2）class创建实例对象  把JSON对象给props属性
+      //3）通过创建的实例，调用render函数，得到jsx对象
+      //4）reactDOM会将render函数返回值生成虚拟DOM渲染到页面上 render返回值会替换到组件
+    </script>
+</body>
+</html>

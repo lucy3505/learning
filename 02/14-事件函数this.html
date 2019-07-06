@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    
+      class App extends React.Component{
+        show(){
+          console.log(this)
+          alert('我是show')
+        }
+
+
+        render(){
+          console.log(this)
+          //this里（也就是app实例对象）也是有show方法
+          return (<div>
+            <h1>我是App</h1>
+            <button onClick={()=>this.show()}>按钮</button>
+          
+          </div>)
+        }
+      }
+     
+
+    ReactDOM.render(
+      <div><App  title='fsf' content='传递给Child的内容' age={123}/></div>,document.getElementById('root'))
+   //React.createClass定义的组件，事件函数的this是自动绑定到当前实例上，不需要任何处理
+    </script>
+</body>
+</html>

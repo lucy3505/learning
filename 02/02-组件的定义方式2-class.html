@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //组件的定义方式一，利用函数定义组件
+    //组件的定义方式二，利用React.Component类定义组件
+
+    //首字母不大写就是无意义的标签
+    class MyApp extends React.Component{
+      // constructor(props) {
+      //   super(props) //如果显示的定义构造时，一定要在构造函数的第一行,
+      //   //props,组件的属性对象
+      //   console.log(props)
+      // }
+      //必须要定义render函数，而且render函数必须要将组件的视图模板返回
+      //construtor可以不写，因为是默认的，但render必须写，否则这个组件无意义
+      render() {
+        return (
+          <div>
+            <h2>{this.props.title}</h2>
+            <p>{this.props.content}</p>  
+            
+          </div>
+        )
+      }
+    }
+
+    ReactDOM.render((<div>
+      <MyApp title="app标题" content='app的段落内容'></MyApp>
+      <hr/>
+      
+      <MyApp title="app标题" content='app的段落内容'></MyApp>
+      </div>)
+      ,document.getElementById('root'))
+    
+    </script>
+</body>
+</html>

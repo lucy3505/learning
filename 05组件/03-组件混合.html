@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+
+      //MyComponent1和MyComponent2有两个函数都是一样的  没必要重复写  怎么复用？
+      //React.Component没有mixins  只有React.createClass有
+      //定义混合对象
+      const myMixins={
+         componentWillMount() {
+
+          console.log('component will mount..')
+        },
+
+        show() {
+          console.log('show....')
+        },
+      }
+
+  const MyComponent1= React.createClass({
+   mixins:[myMixins],
+
+    componentWillMount(){
+      console.log('组件1即将挂载....')
+    },//组件1两个生命周期函数都调用了  先调用了mixins的  然后又调用自身的
+    //但对于普通函数，例如show，调用2次就会报错
+
+    render(){
+      return(
+        <div>
+          组件1
+        </div>
+      )
+    }
+
+  })
+
+  const MyComponent2= React.createClass({
+    mixins:[myMixins],//将混合对象混合到当前组件
+    // show(){
+    //   console.log('show....')
+    // },
+
+    
+    render(){
+      return(
+        <div>
+          组件2....<button onClick={this.show}>show</button>
+        </div>
+      )
+    }
+
+  })
+    
+    
+
+
+    ReactDOM.render(<div><MyComponent1 /><h2/><MyComponent2 /></div>,document.getElementById('root'))
+    //componentWillMount已进入就被调用2次 说明mixins混入了  但能不能复写show函数呢？
+    //就因为这原因，mixins被废弃了
+
+
+    </script>
+
+</body>
+</html>
+  
+</body>
+</html>

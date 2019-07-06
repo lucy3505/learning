@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    
+      class App extends React.Component{
+        show(){
+          //谁在调用show?this.show--->this在调用show,this又是当前得实例对象，按理说是指向前实例对象，但是并没有
+          //事件函数中得this默认指向得是null，因为react内部，button里的 onClick并不是真正得元素onClick方法，这只是js描述对象，定义了一下之间得关系，真正得是根据描述对象渲染到真实DOM得一个情况，DOM怎么调用得，show里面this就是怎样调用得，内部处理了，真正点得时候不是按照这个对象去调用得，真正点得时候不再是调用App实例了，内部处理了
+          console.log(this)//null
+          alert('我是show')
+          console.log(this.props.title)
+          //this.props得this也是取不到，因为this是空之4，但如果我们类里面得这个函数（show这个函数）如果是app实例去对用得肯定能调用到，象render这个函数就是app实例去调用得，所以里面得this也指向了类里面得函数，render函数里就放心得用this，因为render函数首先是由react调用出来得，因为首先要用render函数才能拿到描述对象才能渲染页面，所以render肯定是react生成实例去调用的。但是show变成一个事件函数的时候就不再是了，那我们怎么让this指向当前的App实例对象？默认情况下是不可能
+        }
+
+
+        render(){
+          
+          //show方法现在render这个局部函数里找，找不到再到全局去找，如果定义再App上，相当于定义在类上得方法，就是app.proptotype上
+          //this.show() //this--->当前得实例对象，就是类上定义得show方法
+          return (<div>
+            <h1>我是App</h1>
+            <button onClick={this.show}>按钮</button>
+          
+          </div>)
+        }
+      }
+      //App.proptotype.show,App.prptotype.render
+      var app=new App()
+      app.render()
+      //render函数里得this就是app
+      //自己组件得一些事件肯定定义在自己组件得类里面
+
+    ReactDOM.render(
+      <div><App  title='fsf' content='传递给Child的内容' age={123}/></div>,document.getElementById('root'))
+   
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  .active{
+    color:red
+  }
+  .about_active{
+    color: green
+  }
+  
+  </style>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./react-router-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+   
+    //不同的url共用相同的结构模板的时候，用到动态路由  相当于一个组件匹配多个路径,样式结构一样  就是数据不一样
+    const {Route,HashRouter:Router,Link,NavLink,Switch,Redirect} = ReactRouterDOM
+    class App extends React.Component{
+      render(){
+        return(
+          <Router>
+            <div>
+              <p>
+                <NavLink to="/">首页</NavLink>
+                <NavLink to="/about" activeClassName="about_active">关于</NavLink>   
+                <NavLink to="/product" activeClassName="about_active">产品</NavLink>   
+
+              </p>  
+              <Switch>
+                <Route path="/" exact render={(props)=>(<h1>首页----{props.match.url}</h1>)}></Route>
+                <Route path="/:myPath" component={MyComponent}></Route>
+              </Switch>
+            </div>  
+          </Router>
+        )
+      }
+    }
+    
+    class MyComponent extends React.Component{
+      componentWillMount(){
+        console.log(this.props)
+        //请求数据
+        fetch('./data/${}.json')
+      }
+      render(){
+        return(
+         
+            <div>
+             <h2>aaaa</h2>
+             <p>bbb</p>
+  
+              
+              
+            </div>  
+            
+          
+        )
+      }
+    }
+
+    
+
+
+
+    ReactDOM.render(<App/>,document.getElementById('root'))
+    </script>
+  
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="./react.js"></script>
+  <script src="./react-dom.js"></script>
+  <script src="./babel.min.js"></script>
+  <script type="text/babel">
+  //jsx中元素得style属性不能设置为字符串，应该设置为对象
+    // const el=(<div style="width:100px;height:100px;background:red"></div>);
+    //样式属性名做key（如果属性名有多个单词，要以驼峰命名， 例如padding-left写成paddingLeft），属性值为value
+    const el=(<div style={{width:'100px',height:'100px',background:'red',paddingLeft:'50px'}}></div>);
+
+    ReactDOM.render(el,document.getElementById('root'))
+  
+  </script>
+
+
+</body>
+</html>

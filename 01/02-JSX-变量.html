@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <!-- React核心库 -->
+  <script src="./react.js"></script>
+  <!-- React和DOM相关得库 -->
+  <script src="./react-dom.js"></script>
+  <!-- babel工具包，用于转换JSX语法-->
+  <script src="./babel.min.js"></script>
+  <!-- 要给JSX所在得script设置类型为type="text/babel",babel才会去编译-->
+  <script type="text/babel">
+
+    var title="Hello,world"
+    //有时候标签比较多，要有（）才能换行，不换行也能（）
+    //在JSC中取变量/表达式{}取，jsx中所有变量或函数都是通过{}取
+    reactDOM.render((<h1>
+      {title+'12345'}
+      </h1>),document.getElementById('root'))
+
+  </script>
+
+
+</body>
+</html>

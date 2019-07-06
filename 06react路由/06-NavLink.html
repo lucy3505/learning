@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  .active{
+    color:red
+  }
+  .about_active{
+    color: green
+  }
+  
+  </style>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./react-router-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //NavLink : 在Link的功能基础上，如果当前当行被触发，多了个class=active  Link和NavLink渲染出来的都是a标签
+    //修改类名等
+    //NavLink所具有的属性有：
+    // 1）activeClassName:设置触发时所添加的类名，默认值为active
+   //  2)activeStyle:当前导航触发时所添加的行间样式    一般有className就不用style   都是激活时加的样式
+   //  3）exact:值为true，则只有当前NavLink指定的路径和url中完全匹配时才会给对应的NavLink加 
+    const {Route,HashRouter:Router,Link,NavLink,Switch,Redirect} = ReactRouterDOM
+    class App extends React.Component{
+      
+ 
+      render(){
+        return(
+          <Router>
+            <div>
+              <p>
+                <NavLink to="/home">首页</NavLink>
+                <NavLink to="/about" activeClassName="about_active">关于</NavLink>   
+
+              </p>  
+              <Switch>
+                <Route path="/home" exact component={Home}></Route>
+                <Route path="/about" component={About}></Route>
+                <Redirect to="/home" component={Home}></Redirect>
+              </Switch>
+            </div>  
+          </Router>
+        )
+      }
+    }
+    
+    class Home extends React.Component{
+      render(){
+        return(
+          <Router>
+            <div>
+              <p>
+                <Link to="/home/cloth">衣服</Link>  
+                <Link to="/home/food">食品</Link>  
+                
+                
+              </p>  
+              <Switch>
+                <Route path="/home/cloth" render={(props)=>(<h3>衣服</h3>)}></Route>  
+                <Route path="/home/food" render={(props)=>(<h3>食物</h3>)}></Route>  
+              </Switch>
+              
+              
+            </div>  
+            
+          </Router>
+        )
+      }
+    }
+
+    function About(props) {
+     
+        return(<h2>关于</h2>)
+      
+    }
+
+
+
+    ReactDOM.render(<App/>,document.getElementById('root'))
+    </script>
+  
+</body>
+</html>

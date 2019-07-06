@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <!-- html中得onclick属性设置点击事件得方式
+    onclick=show()  //事件属性名全小写，赋值为函数调用
+    html中属性都是用''赋值  例如'show()'
+    jsx中不能用''赋值,且不能加（）
+  -->
+  <button onclick="show()">外部按钮</button>
+  <div id="root"></div>
+  <script src="./react.js"></script>
+  <script src="./react-dom.js"></script>
+  <script src="./babel.min.js"></script>
+  <script type="text/babel">
+    function show(ev){
+      //参数为事件对象
+      console.log(ev)
+      alert('aaaa')
+    }
+    //需求是点按钮弹出a
+    /*
+    JSX设置事件：
+        元素属性得事件名要驼峰命名，如onClick，
+        事件函数赋值时用{}函数对象，如{show},不是函数调用,如{show()}
+
+    
+    */
+    ReactDOM.render((<div><button onClick={show}>按钮</button></div>),document.getElementById('root'))
+  
+  </script>
+  
+</body>
+</html>

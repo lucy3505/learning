@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //React 中的MVVM
+      class App extends React.Component{
+        constructor(props){
+          super(props)
+          //定义状态，state只能在构造函数进行赋值
+          this.state={
+            value:''
+          }
+          //对于React.createClass组件，state初始化通过getInitialState方法进行储是化
+          // getInitialState:function(){
+          //   return{
+          //     num:0  //return初始化状态
+          //   }
+
+          }
+        }
+        change=(e)=>{
+        //修改状态
+        //只能通过setState对state进行修改，不能直接赋值
+          this.setState({//自动更新视图
+            value:e.target.value
+          })
+        }
+
+        render(){
+          return (
+            <div>
+              <input value={this.state.value} onChange={this.change}/>
+              {/*获取状态*/}
+              <p>{this.state.value}</p>
+            
+            </div>
+          )
+        }
+
+
+      }
+       
+        
+     
+
+    ReactDOM.render(
+      <div><App/></div>,document.getElementById('root'))
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+
+    class App extends React.Component{
+      constructor(props){
+        super(props)
+        this.state={
+          fav:[]
+        }
+      }
+      addFav=(e,text)=>{
+        console.log(e.target.checked,text)
+        //判断当前元素是否选中
+        if(e.target.checked){
+          //如果选中则添加text到数组中
+          this.setState({
+            fav:[
+              ...this.state.fav,
+              text
+            ]
+          })
+        }else{
+          // 如果没有选中则将text从数组中删除
+          // 先查找下标
+          var i=null
+          this.state.fav.forEach((val,index)=>{
+            if(val==text){
+              i=index
+            }
+          })
+          if(i==null){
+            return 
+          }
+        
+        this.setState({
+          fav: [
+            ...this.state.fav.slice(0,i),
+            ...this.state.fav.slice(i+1)
+          ]
+        })
+        
+       
+        
+      }
+    }
+      
+      render(){
+        return(
+          <div>
+            <span>爱好:</span>
+            <label><input type="checkbox" onChange={(e)=>this.addFav(e,'吃饭')} />吃饭</label>
+            <label><input type="checkbox" onChange={(e)=>this.addFav(e,'睡觉')}/>睡觉</label>
+            <label><input type="checkbox" onChange={(e)=>this.addFav(e,'打豆豆')}/>打豆豆</label>
+           <p>你的爱好:{this.state.fav}</p>
+          </div>
+        )
+      }
+    }
+    
+    
+    
+    ReactDOM.render(<App/>,document.getElementById('root'))
+    
+    </script>
+  
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./react-router-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    
+ 
+    const {Route,HashRouter:Router,Link,Switch,Redirect} = ReactRouterDOM
+    class App extends React.Component{
+      
+ 
+      render(){
+        return(
+          <Router>
+            <div>
+              <p>
+                <Link to="/home">首页</Link>
+                <Link to="/about">关于</Link>   
+
+              </p>  
+              <Switch>
+                <Route path="/home" exact component={Home}></Route>
+                <Route path="/about" component={About}></Route>
+                <Redirect to="/home" component={Home}></Redirect>
+              </Switch>
+            </div>  
+          </Router>
+        )
+      }
+    }
+    
+    class Home extends React.Component{
+      render(){
+        return(
+          <Router>
+            <div>
+              <p>
+                <Link to="/home/cloth">衣服</Link>  
+                <Link to="/home/food">食品</Link>  
+                
+                
+              </p>  
+              <Switch>
+                <Route path="/home/cloth" render={(props)=>(<h3>衣服</h3>)}></Route>  
+                <Route path="/home/food" render={(props)=>(<h3>食物</h3>)}></Route>  
+              </Switch>
+              
+              
+            </div>  
+            
+          </Router>
+        )
+      }
+    }
+
+    function About(props) {
+     
+        return(<h2>关于</h2>)
+      
+    }
+
+
+
+    ReactDOM.render(<App/>,document.getElementById('root'))
+    </script>
+  
+</body>
+</html>

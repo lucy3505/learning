@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .active{
+      background:red
+    }
+  
+  </style>
+</head>
+<body>
+  <div id='root'></div>
+  <script src="./react.js"></script>
+  <script src="./react-dom.js"></script>
+  <script src="./babel.min.js"></script>
+  <script type="text/babel">
+    var arr=['111','222','333']
+
+    //只给第一项加active  如果多项要active 可以用插件，后面讲
+    ReactDOM.render((
+      <ul>
+        {arr.map((val,index)=>{
+          return (<li key={index} className={index==0?'active':''}>{index}---{val}</li>)
+        })
+      }
+      </ul>
+    ),document.getElementById('root'))
+
+  </script>
+  
+</body>
+</html>

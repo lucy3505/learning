@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //props用于接受组件的属性的对象
+   class App extends React.Component{
+
+     render() {
+         //没有设置title值就为undefind  不展示。但可以有属性默认值
+       return (
+         <div>
+            <h1>{this.props.title}</h1>
+            <h1>{this.props.content}</h1>
+          </div>
+       )
+     }
+   }
+//属性的默认值
+//对于函数式组件和React.Component组件，定义属性默认值的方式为：在类名上定义一个属性defalutProps
+//函数式组件也一样，只不过类名变为函数名
+//没有值用默认值，有值就用值不用默认值
+App.defaultProps={
+  title:'hello,world', //默认的属性值
+  content:'aaaa'
+}
+    ReactDOM.render(
+      <div><App  content='传递给Child的内容'/></div>,document.getElementById('root'))
+   
+    </script>
+</body>
+</html>

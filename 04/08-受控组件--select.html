@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+
+    class App extends React.Component{
+      constructor(props){
+        super(props)
+        this.state={
+          province:'sz'
+        }
+      }
+      
+      handleSelect=(ev)=>{
+        //修改状态
+        console.log(ev.target.value)//如果option没有设置value  则拿到的是option显示的值   如果<option value="sz">深圳</option>则拿到sz否则是深圳
+        this.setState({
+          province:ev.target.value
+        })
+      }
+      
+    
+      
+      render(){
+        return(
+          <div>
+            {/*要想知道用户输入的是什么就要使用受控组件  onChange*/}
+            <select onChange={this.handleSelect} value={this.state.province}>
+              <option value='sz'>深圳</option>  
+              <option  value='gz'>广州</option>  
+              <option  value='tj'>天津</option>  
+              
+            </select>
+            <p>{this.state.province}</p>
+          </div>
+        )
+      }
+    }
+    
+    
+    
+    ReactDOM.render(<App/>,document.getElementById('root'))
+    
+    </script>
+  
+</body>
+</html>

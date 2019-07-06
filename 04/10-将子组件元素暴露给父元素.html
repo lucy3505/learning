@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    
+    class App extends React.Component{
+       getInput=()=>{
+         //子组件的input元素，focus()
+         
+          this.childInput.focus()
+        }
+
+     myFn=(el)=>{
+       debugger
+      this.childInput=el
+     }
+      render(){
+
+       
+        return(
+          <div>
+            <Child myFn={this.myFn}/>
+            <button onClick={this.getInput}>触发子组件的input获取光标</button>
+          
+          </div>
+        )
+      }
+    }
+
+    class Child extends React.Component{
+
+      render(){
+        return(
+          <div>
+          {/*
+            <input ref={(el)=>{this.props.myFn(el)}}/>
+          */}
+            {/*会自动执行*/}
+            <input ref={this.props.myFn}/>
+          </div>
+        )
+      }
+    }
+
+
+      ReactDOM.render(<App/>,document.getElementById('root'))
+    
+    
+    </script>
+  
+</body>
+</html>

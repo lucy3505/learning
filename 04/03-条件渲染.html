@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+      class App extends React.Component{
+        constructor(props){
+          super(props)
+          this.state={
+            islogging: false
+          }
+        }
+
+        handleChange=()=>{
+          this.setState({
+            islogging:!this.state.islogging
+          })
+        }
+        render(){
+          
+          return(
+            <div>
+              <input type="checkbox" checked={this.state.islogging} onChange={this.handleChange}/>
+              <Greeting islogging={this.state.islogging} />
+            </div>
+          )
+        }
+      }
+
+      class Greeting extends React.Component{
+        render(){
+          console.log(this.props)
+          //?后面可以是子组件也可以是JSX，this.props.isloggg如果是数字0，被判定为false
+          return (
+            <div>
+              {this.props.islogging?'欢迎回来':'还没登陆！请登陆'}  
+              
+            </div>
+          )
+        }
+      }
+
+      ReactDOM.render(<App/>,document.getElementById('root'))
+    
+    
+    
+    
+    </script>
+  
+</body>
+</html>

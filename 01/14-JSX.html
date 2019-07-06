@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+
+
+      let value="112"
+      function change(){
+        value *= Math.random()*0.2
+        alert(value)//value变了  但视图没有因为value变化而更新
+        const el=(<div><p>{value}</p><button onClick={change}>点击修改value值</button></div>)
+        //重新调用render函数才能更新
+        //但是React只会更新视图中发生改变得部分
+        //不会重新渲染DOM，render每次拿到得是一个对象， 元素对象得描述对象，对象里面有一些键值对，例如{div }
+        //react一开始里面有一个完整得对象，对象一开是空得，第一次ReactDOM.render渲染后内存里就有对象了，后面再render就会和内存里得对象进行比较
+        ReactDOM.render(el,document.getElementById('root'))
+      }
+
+      const el=(<div><p>{value}</p><button onClick={change}>点击修改value值</button></div>)
+
+      ReactDOM.render(el,document.getElementById('root'))
+
+
+
+    
+    </script>
+  
+</body>
+</html>

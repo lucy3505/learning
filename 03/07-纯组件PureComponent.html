@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    
+    //纯组件优化性能
+    //PureComponet纯组件
+    //原理
+    class App extends React.PureComponent{
+      constructor(props){
+        super(props)
+        this.state={
+          title:'hello'
+        }
+      }
+      change=()=>{
+        this.setState({
+          title:'bbb'+Math.random()
+        })
+      }
+      render(){
+        console.log('父组件的render被调用了...')
+        const obj={name:'zhangsan'}//每次render都产生新的obj,那么Child里面的props每次都是变得，所以Child不应该使用PureComponent
+        return (
+          <div>
+            <h1>{this.state.title}</h1>
+            <button onClick={this.change}>按钮</button>
+            <hr/>
+            <Child obj={obj}/>
+          </div>
+        )
+
+      }
+        //默认shouldComponentUpdate
+        // shouldComponentUpdate(nextProps,nextProps) {
+        //     return !shadowEqual(nextProps,this.props)||shadowEqual(nextState,this.state)//
+        // }
+        //shadowEqual:浅等于(只比较两个对象的第一次属性是否相等)
+        //shadowEqual(obj1,obj2)
+        //      obj1:{name:'lisi'}
+        //      obj2:{name:'lisi'}
+
+        //deepEqual:深等于（两个对象的每一层属性都要相同）
+        //PureComponent纯组件虽然通过浅比较，在一定程度上减少了render函数调用次数
+        //但是如果你的数据的变化不是第一层的变化，而是深层属性变化，该变化也要导致视图更新，则这时不能使用PureComponent
+        //如果每次父组件的变化，不管如何都导致的子组件的prop或state的新变化，从而导致子组件的生命周期被调用，则这时也不应该用pureComponent
+    }
+    class Child extends React.PureComponent{
+      render(){
+        console.log('子组件的render被调用了...')
+        return(<p>aaaa</p>)
+      }
+      componentWillReceiveProps(nextProps){
+
+            console.log('子组件的componentWillReceive')
+          }
+    }
+    ReactDOM.render(<App/>,document.getElementById('root'))
+    </script>
+  
+</body>
+</html>

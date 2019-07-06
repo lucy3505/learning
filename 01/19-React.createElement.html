@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //JSX :本质是react.createElement函数得语法糖
+    /* const el=<div id="box">
+             <h2 className="box">hello,react</h2>
+             <p>11111</p>
+             </div> 
+    */
+    //jsx等效于
+    //第一个参数,待创建得元素名称
+    //第二个参数,待创建得元素得属性
+    //第三个参数,待创建得元素得内容或子元素
+    const el=React.createElement('div',{id:'box'},React.createElement('h2',{className:"box"},'hello world'),React.createElement('p',null,'11111'))
+    console.log(el)
+    /*
+    React生成得元素得描述对象（el还不是虚拟DOM） 值是元素得描述对象，react根据描述对象去生成虚拟DOM
+    JSX能生成下面这个描述对象，用react.createElement也能生成下面得描述对象，最后再有react.render去生成虚拟DOM然后再渲染真实DOM，虚拟DOM会去做对比，和上一次内存里保存的对象
+    {
+      type:'div',
+      props:{
+        id:'box',
+        children:[{
+          type:'h2',
+          props:{
+            className:'box'
+            children:'hello world'
+          }
+        },{
+          type:'p',
+          props:{
+            children:'111'
+          }
+        }]
+      }
+
+
+    }
+    
+    */
+    ReactDOM.render(el,document.getElementById('root'))
+    
+    </script>
+  
+</body>
+</html>

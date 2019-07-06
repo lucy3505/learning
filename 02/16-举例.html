@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //划分ui:
+    //PersonTable  -->PersonHeader /PersonItem
+      class PersonTable extends React.Component{
+        constructor(props){
+          super(props);
+          this.headers=['姓名','性别','年龄']
+          this.person=[{
+            name:'张三',
+            sex:'男',
+            age:19
+          },
+          {
+            name:'里斯',
+            sex:'男',
+            age:22
+          },
+          {
+            name:'丫丫',
+            sex:'女',
+            age:29
+          }]
+        }
+        render() {
+          return (
+            <table>
+              <PersonHeader title={this.headers}></PersonHeader>
+              <tbody>
+                {
+                  this.person.map((val,index)=>{
+                    return <PersonItem content={val} key={index}></PersonItem>
+                  })
+                }
+              
+              </tbody>
+            
+            </table>
+          )
+        }
+      }
+      function PersonHeader(props){
+        return(<thead>
+        <tr>
+          {props.title.map((value,index)=>{
+            return(<th key={index}>{value}</th>)
+          })}
+          </tr>
+          </thead>
+        )
+      }
+      class PersonItem extends React.Component{
+        render() {
+          return(
+          <tr>
+          {/*
+            <td>{this.props.content.name}</td>
+            <td>{this.props.content.sex}</td>
+            <td>{this.props.content.age}</td>*/}
+            {/*遍历对象还可以用这个方法，效果同上*/}
+            {
+              Object.keys(this.props.content).map((name,index)=>{
+                return <td key={index}>{this.props.content[name]}</td>
+              })
+
+            }
+          </tr>
+          )
+        }
+      }
+
+        
+     
+
+    ReactDOM.render(
+      <div><PersonTable  title='fsf' content='传递给Child的内容' age={123}/></div>,document.getElementById('root'))
+   //React.createClass定义的组件，事件函数的this是自动绑定到当前实例上，不需要任何处理
+    </script>
+</body>
+</html>

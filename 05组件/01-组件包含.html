@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+  class App extends React.Component{
+
+    render(){
+      return(
+        <div>
+          <h1>组件内标题</h1>
+          <p>组件内段落</p>  
+          {/*this.props.children代表组件使用时已有的内容*/}
+          {this.props.children}
+        </div>
+      )
+    }
+
+  }
+    
+    
+
+
+    ReactDOM.render(<App><h3>组件外的你内容...</h3><section>组件外的section</section></App>,document.getElementById('root'))
+    //这时候h3里的内容是无法显示的  被上面的div替换了  vue里要保留是用slot  要把h3和section分散渲染进去 vue使用slot命名
+    //react里用this.props.children  会把h3和section一起渲染进去  没法分散渲染
+
+    </script>
+
+</body>
+</html>
+  
+</body>
+</html>

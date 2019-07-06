@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //React 中的MVVM
+    //State的特点
+    //1.当组件内的数据需要发生改变，而且该数据改变会导致视图更新，这个数据应该用state存储
+    //2。state是组件内部所持有的，其他的组件无法访问，但是组件可以选择是否把状态数据传给子组件，数据流是自上而下的
+    //3.state只能在构造函数中赋值（初始化），不是所有数据都用state去存，只有要导致视图更新的数据用state去存，以后要修改sate只能通过setState方法修改，react会合并到一个setState去更新视图
+    //4.setState是异步操作，即状态的更新是异步
+      class App extends React.PureComponent{
+        //在构造函数中初始化state
+        constructor(props){
+          super(props)
+          this.state={
+            person:{
+              name:'list',
+              age:20
+            },
+            arr:['aaa','bbb','ccc']
+          }
+ 
+        }
+        changePersonName=()=>{
+          //修改人的名称
+          //下面这样修改是可以，但如果是React.PureComponent就不可以了
+          //PureComponent
+          // var person=this.state.person
+          // person.name='zhangsan'
+          // this.setState({
+          //   person
+          // })
+          //但如果是React.PureComponent就不可以了,PureComponent本身会做一个比较，如果state里面的值本身没有发生变化是不会改变状态的。
+          //对象和数组本身是引用类型，值是地址，改变里面的属性，但因为地址是不变得所以purecomponent就不认为要促发更新视图
+          //所以用纯组件得话
+          //object.assign是一个对象得拷贝方法，会返回一个新对象，拷贝到第一个参数上
+          //React.Component更能更新视图，只要调用setState就会更新视图，不管你里面数据有没有变化，没有变化也会更新一次视图
+          //推荐下面得方式更新视图
+          this.setState({
+            person:Object.assign({},this.state.person,{name:'zhangsan'})
+          })
+
+        }
+        addPersonsex=()=>{
+          this.setState({
+            person:Object.assign({},this.state.person,{sex:'女'})
+          })
+        }
+        delPersonAge=()=>{
+          //pureComponent就删不掉
+          var person=this.state.person
+          delete person.age;
+          this.setState({
+            person
+          })
+        }
+        addArr=()=>{
+          //数据添加
+          //不推荐，纯组件不会更新视图
+          // var arr=this.state.arr
+          // arr.push('ddd')
+          // this.setState({
+          //   arr
+          // })
+          //推荐下面得方法
+          this.setState({
+            arr:[
+              ...this.state.arr,
+              'ddd'
+            ]
+          })
+        }
+        delArr=()=>{
+          //纯组件不适用下面得方法
+          //this.setState({
+          //   arr:newArray(arr)
+          // })
+          // var arr=this.state.arr
+          // arr.pop()
+          // this.setState({
+          //   arr
+          // })
+          //推荐的修改方式
+          this.setState({
+            arr:[...this.state.arr.slice(0,thi.state.arr.length-1)]
+          })
+        }
+
+        changeArr=()=>{
+          // var arr=this.state.arr;
+          // arr.splice(1,1,'ggg')
+          // this.setState({arr})
+          //推荐的方式
+          this.setState({
+            arr:[
+              ...this.state.arr.slice(0,1),
+              'fff',
+              ...this.state.arr.slice(2)
+            ]
+          })
+        }
+
+        render(){
+          return (
+            <div>
+              <h4>对象state展示</h4>
+              <p>
+                <span>{this.state.person.name}</span>
+                <span>{this.state.person.age}</span>
+                <span>{this.state.person.sex}</span>
+              </p>
+              <button onClick={this.changePersonName}>修改人名</button>
+              <button onClick={this.addPersonsex}>增加人属性</button>
+              <button onClick={this.delPersonAge}>删除人属性</button>
+              <hr/>
+              <h4>数组state展示</h4>
+              <ul>
+                {
+                  this.state.arr.map((val,index)=>{
+                    return(<li key={index}>{val}</li>)
+                  })
+                }
+              
+              </ul>
+              <button onClick={this.changeArr}>修改人名</button>
+              <button onClick={this.addArr}>增加人属性</button>
+              <button onClick={this.delArr}>删除人属性</button>
+            </div>
+          )
+        }
+
+
+      }
+       
+        
+     
+
+    ReactDOM.render(
+      <div><App add={11}/></div>,document.getElementById('root'))
+
+    </script>
+</body>
+</html>

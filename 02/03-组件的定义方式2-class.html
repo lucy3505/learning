@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    
+    //组件的定义方式三，利用React.createClass定义组件(一个方法来定义的)
+    //React.createClass的参数，自定义组件选项
+      //实际上是个对象，MyApp会实例化成一个对象，会自动将title,content挂载在这个对象上，和Class是类似的
+    const MyApp = React.createClass({
+      //key:value
+      //必须要设置render函数
+      render:function() {
+        //要将组件模板返回
+        //因为实例化，所以有this.props
+        return (<div>
+          
+            <p>{this.props.title}</p>
+            <h2></h2> 
+          
+          </div>)
+      }
+    })
+     
+    //React.createClass方法在React 15.5版本及其之后不支持
+    //如果需要在React 15.5版本以后使用React.createClass方法创建组件，则需要引入额外库create-react-class
+    //cnpm install create-react=class --save
+    //在使用的地方 import createClass from 'create-react-class'
+    //   const MyApp=createClass({render(){}})
+
+    ReactDOM.render((<div>
+      <MyApp title="app标题" content='app的段落内容'></MyApp>
+      <hr/>
+      
+      <MyApp title="app标题" content='app的段落内容'></MyApp>
+      </div>)
+      ,document.getElementById('root'))
+    //React.createClass组件的使用过程，
+      //1）调用ReactDOM.render函数，
+      //   React会将render函数中的第一个参数使用到的组件中的属性转换为json对象
+      //2）React会根据React.createClass所设置选项创建一个实例，第一步得到属性对象赋值给该实例的props属性
+       //     React.createClass所定义的选项都会挂在到所创建的实例上
+      //3） 通过所创建的实例，调用其render函数，得到jsx对象 
+      //4）ReactDOM会将rener函数返回值生成虚拟DOM渲染到页面上  render的返回值会替换掉<MyApp/>
+    </script>
+</body>
+</html>

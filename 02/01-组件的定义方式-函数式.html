@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //组件的定义方式一，利用函数定义组件
+    //首字母不大写就是无意义的标签
+    function MyApp(props){
+      return (<div>
+            <h1>组件标题</h1>
+            <p>组件段落</p>
+          </div>
+        )
+    }
+
+    ReactDOM.render((<div>
+      <MyApp title="app标题" content='app的段落内容'></MyApp>
+      <hr/>
+      
+      <MyApp title="app标题" content='app的段落内容'></MyApp>
+      </div>)
+      ,document.getElementById('root'))
+      //函数式组件的使用过程，
+      //1）调用ReactDOM.render函数，
+      //   React会将render函数中的第一个参数使用到的组件中的属性转换为json对象
+      //2）调用定义组件的函数，如MyApp,并将上面所生成的json对象传给函数的参数
+      //3）调用之后得到函数的返回值，ReactDOM会将返回值生成虚拟DOM渲染到页面上
+    
+    </script>
+</body>
+</html>

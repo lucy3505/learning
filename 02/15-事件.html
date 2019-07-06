@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    
+      class App extends React.Component{
+        constructor(props){
+          super(props)//显示写出constructor时，不要忘记在第一行添加super
+          this.show=this.show.bind(this)
+        }
+
+        show(ev){
+          //参数event，是经过React处理后的合成的事件对象。类似jq中的事件函数的event对象
+          //ev.stopPropagation()只能这种方式阻止冒泡
+          //ev.preventDefault()只有这种方式阻止默认事件
+          console.log(this.props.title)
+          alert(this.props.title)
+          //阻止默认行为
+          ev.preventDefault()
+        }
+
+
+        render(){
+          console.log(this)
+          //this里（也就是app实例对象）也是有show方法
+          return (<div>
+          <h1>{this.props.title}</h1>
+          {/*react支持所有原生js事件*/}
+           <a href="http://baidu.com" onClick={this.show} onMouseMove={this.show}>按钮</a>
+          </div>)
+        }
+      }
+     
+
+    ReactDOM.render(
+      <div><App  title='fsf' content='传递给Child的内容' age={123}/></div>,document.getElementById('root'))
+   
+    </script>
+</body>
+</html>

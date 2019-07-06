@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./react-router-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    
+    /*
+      ReactRouterDOM中的组件说明：
+      1）Router:是所有路由组件共用的底层接口，相当于容器，导航不一定放里面，但Route一定放里面，用于根据location（window.location)的值更新容器
+        注意：Router里面的内容必须要有根元素，根元素类型不限  v2和v3根元素必须是Route
+        Router组件有：
+        BrowserRouter:用HTML5的历史管理来保持组件和url的同步
+        HashRouter:用URL的hash值来保持组件和url同步
+        MemooryRouter：在内存中保存url历史记录，一般在测试环境下
+        StaticRouter：地址从不改变
+    2）Route:作用是当windoe.location的url和所设置的path属性匹配时渲染所指定的组件。第一个属性就是path（可以是字符串也可以是对象）,第二个就是指定要渲染的组件（可以写component或render函数或children
+            一般情况下不做特殊处理都用component
+    3)Link:a标签的增强版本，可以用来实现页面跳转  无法修改样式
+    
+    */
+    const {Route,HashRouter:Router,Link} = ReactRouterDOM
+    class App extends React.Component{
+      render(){
+        return(
+          <Router>
+            <div>
+              <p>
+                <Link to="/home">首页</Link>  
+                <Link to="/about">关于</Link>  
+              </p>  
+              {/*用Router组件列举所有的路由记录
+                Route组件必须有Router父组件
+              */}
+              <Route path="/home" component={Home}></Route>
+              {/* <Route path="/home" render={()=><h2>主页</h2>}></Route> */}
+              <Route path="/about" component={About}></Route>
+            </div>  
+          </Router>
+        )
+      }
+    }
+    
+    function Home(props) {
+      //每一个Route挂载的组件  props上都有3个对象
+      //history  可以回退，跳转
+      //location 当前的地址对象  当前的地址信息
+      console.log(props)
+      
+        return(<h2>首页。。。<button onClick={()=>{props.history.push('/about')}}>跳转</button></h2>)
+      
+    }
+
+    function About(props) {
+     
+        return(<h2>关于</h2>)
+      
+    }
+
+
+    ReactDOM.render(<App/>,document.getElementById('root'))
+    </script>
+  
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //props用于接受组件的属性的对象
+   class MyApp extends React.Component{
+    //必须要设置render函数
+     render() {
+       return (
+         <div>
+            <h1>{this.props.title}</h1>
+            {/* JSX中在页面上不显示的数据有：undefined,null,true,false*/}
+            <p>{this.props.content}</p>
+            <p>{null}</p>
+            <p>{true}</p>
+            <p>{false}</p>
+            <p>{NaN}</p> {/*有结果，NaN */}
+            <p>{this.props.content}</p> {/*有结果，NaN */}
+            <p>{this.props.arr}</p>{/*数组在jsx中会自动展开，aaabbbccc */}
+            <p>{this.props.obj.name}</p>{/*对象在jsx中不会自动展开，会报错，只能去对象的值不会报错 */}
+          </div>
+       )
+     }
+   }
+   //props用于父组件给子组件传递数据的，自上而下传，可以传递任何数据（string,number,boolean.num,undefined,object（object包括Array和function）)
+    ReactDOM.render(
+      <MyApp title="app标题" content={23} arr={['aaa','bbb','ccc']} obj={{name:'lili',age:12}} />,document.getElementById('root'))
+   
+    </script>
+</body>
+</html>

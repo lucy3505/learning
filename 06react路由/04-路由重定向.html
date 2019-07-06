@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./react-router-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    
+ 
+    const {Route,HashRouter:Router,Link,Switch} = ReactRouterDOM
+    class App extends React.Component{
+      
+      //Route默认匹配的原理：url上有个path  Route上也有个path  这两个要对比看是否匹配成功，实际上并不是看她两是否完全相等。以/为一组来匹配，从头往后匹配，只要头部组匹配能成功就渲染
+      //Switch:若果有多个匹配的路由组件，Switch让其内只渲染第一个匹配成功的路由，但是会一直匹配成第一个
+      //exact:精确匹配   但有这个有无法一开始就显示首页   这时候要重定向
+      //Redirect:实现重定向，from="/home"  to="/"  当Route上的都不匹配时就走到Redirect或这指定路径走到哪里就跳到另一个路径
+      render(){
+        return(
+          <Router>
+            <div>
+              <p>
+                <Link to="/">首页</Link>
+                <Link to="/ab">包含</Link>   
+                <Link to="/ab/out">关于</Link>  
+                 
+              </p>  
+              <Switch>
+                {/*
+                  exact 属性表示进行完全匹配
+                  strict 属性 如果为true  就认为'/about'和'/about/'是不一样的
+                
+                */}
+                <Route path="/" exact component={Home}></Route>
+                <Route path="/ab" component={Ab}></Route>
+                <Route path="/ab/out" component={About}></Route>
+                {/*重定向*/}
+                <Redirect to="/"></Redirect>
+              </Switch>
+            </div>  
+          </Router>
+        )
+      }
+    }
+    
+    function Home(props) {
+
+      console.log(props)
+      
+        return(<h2>首页。。。<button onClick={()=>{props.history.push('/about')}}>跳转</button></h2>)
+      
+    }
+
+    function About(props) {
+     
+        return(<h2>关于</h2>)
+      
+    }
+    function Ab(props) {
+     
+     return(<h2>包含</h2>)
+   
+ }
+
+
+    ReactDOM.render(<App/>,document.getElementById('root'))
+    </script>
+  
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <!-- 也有引browser.js 本质上也是babel-->
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    
+    //App是自定义组件，如何定义？三种方式
+    //第一种，函数式组件，第二种方式，用class声明类定义
+    //类名即组件名，组件名的首字母必须大写
+     class   App extends React.Component{
+       //默认的构造
+       //要写一些自己的属性，就要显示的写出来constructor
+       constructor(props) {
+        super(props);//调用父类的构造函数，不继承属性就拿不到
+        console.log(props)
+       }
+       //用类方式i定义的组件必须要有render函数
+       render(){
+         console.log(this.props)//this表示当前类的一个实例
+         //render的函数中步需将组件的模板JSX返回
+         return (<div>
+          <p>{this.props.value}</p>
+          <h1>{this.props.content}</h1>
+          </div>
+          
+          )
+       }
+     }
+    ReactDOM.render(<App content='我是content给你的数据' value={a }></App>,document.getElementById('root'))
+    //<App></App>这里是创建一个实例的
+    </script>
+  
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //非受控组件
+    class App extends React.Component{
+      
+      render(){
+        return(
+          <div>
+            <input ref={el=>this.input=el} onChange={(e)=>{this.msg=e.target.value;this.forceUpdate()}}/>
+            {/*输入什么就绑定什么，其实用非受控组件更方便   不是用状态来存值*/}
+            <p>{this.msg}</p>
+            <button onClick={()=>{alert(this.input.value)}}>按钮</button>
+          
+          </div>
+        )
+      }
+    }
+
+    
+
+      ReactDOM.render(<App/>,document.getElementById('root'))
+    
+    
+    </script>
+  
+</body>
+</html>

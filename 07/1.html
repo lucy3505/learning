@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <pre>
+    当有如下需要可以考虑使用redux:
+      当组件的状态，需要共享
+      某个状态需要在任何地方都可以拿到
+      一个组件需要改变全局状态
+      一个组件需要改变另一个组件的状态
+
+      vue中是   
+                   store(state,mutation,action)
+          |----------------------- |     
+          |  action --->mutation   |
+          |-- ↑-------        ↑    |    
+           dispatch  |        |    |
+              |      |        |    |
+              |      |        ↓    |
+      component<-----|-----state   |                                           
+                     |--------------            | 
+
+
+
+             state可以由组件直接获取得到 
+             组件diapatch  action 或commit mutation    来实现数据state的修改       
+  
+
+react没有vuex那么清晰，在store里定义state(状态),action等  主要定义reducer和action
+react中reduce相当于mutation，store不需要定义声明，有reducer自动完成
+组件通过store.getState()获得状态
+组件怎么改状态？通过容器dispatch去改-->也就是store.dispatch(Action)   这个Action相当于重新触发掉了reducer  重新产生State,State一变化就触发组件变化。流向和vuex是一样的
+component--->Action--->reducer--->state--->component     但是不把store,reducer,action全部叫store   这每一个东西都是普通的
+
+  </pre>
+</body>
+</html>

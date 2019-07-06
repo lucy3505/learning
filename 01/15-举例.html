@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<div id='root'></div>
+<script src="./react.js"></script>
+<script src="./react-dom.js"></script>
+<script src="./babel.min.js"></script>
+
+<script type="text/babel">
+
+ var arr=['aaa','bbb','ccc']
+
+ function render(){
+    ReactDOM.render((
+      <div>{arr.map((item,index)=>{
+      return (
+        <div key={index}>
+          {item}
+          <button onClick={()=>moveUp(index)}>上移</button>
+          <button onClick={()=>moveDown(index)}>下移</button>
+        </div>
+      )
+
+    })}
+    </div>),document.getElementById('root'))
+
+
+ }
+
+function moveDown(index){
+  if(index===arr.length-1){
+    alert('无法下移')
+    return
+  }
+  let newArr=[]
+  newArr=arr.splice(index,1)
+  arr.splice(index+1,0,newArr[0])
+  render()
+}
+
+function moveUp(index){
+  if(index===0){
+    alert('无法上移')
+    return
+  }
+  let newArr=[]
+  newArr=arr.splice(index,1)
+  arr.splice(index-1,0,newArr[0])
+  render()
+}
+
+render()
+
+</script>
+
+</body>
+</html>

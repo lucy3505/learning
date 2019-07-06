@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  .active{
+    color:red
+  }
+  .tab .tab-content{
+    width:200px;
+    height:200px;
+    border:10px solid #000;
+  }
+  
+  </style>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+       class App extends React.Component{
+         constructor(props){
+           super(props)
+           this.arr1=[
+             {
+               title:'新闻',
+               content:'新闻新闻新闻新闻新闻'
+             },
+             {
+              title:'财经',
+              content:'财经财经财经财经财经'
+             }
+           ];
+           //选项卡2数据
+           this.arr2=[
+           {
+               title:'娱乐',
+               content:'娱乐娱乐娱乐娱乐娱乐'
+             },
+             {
+              title:'经济',
+              content:'经济经济经济经济经济经济'
+             },
+             {
+              title:'军事',
+              content:'军事军事军事军事军事军事'
+             },
+           ];
+         }
+
+        render(){
+          return(
+            <div>
+              
+              <Tab tabDatas={this.arr1}/>
+              <hr/>
+              
+              <Tab tabDatas={this.arr2}/>
+              </div>
+          );//render必须将组件的jsx返回
+        }
+       }
+
+       class Tab extends React.Component{
+         constructor(props){
+           super(props)
+           this.state={
+             curIndex:0
+           }
+         }
+        changeIndex=(index)=>{
+        
+          this.setState({
+            curIndex:index
+          })
+        }
+         
+        render(){
+          return(
+            <div>
+              {/*选项卡按钮
+                父组件传给子组件函数的时候只需要changeIndex={this.changeIndex} 不需要想别的
+                一般变量什么的都是写在父组件上然后通过组件间传值运作
+                子组件要变index然后传回给父元素，这时候才考虑传参回调之类的 onClick={()=>this.props.changeIndex(index)}
+                不要在父组件上思考，例如changeIndex={()=>this.changeIndex}  这样是没有意义的
+
+              
+              */}
+              <TabButton tabDatas={this.props.tabDatas} curIndex={this.state.curIndex} changeIndex={this.changeIndex}></TabButton>
+               {/*选项卡内容*/}
+              <TabContent tabDatas={this.props.tabDatas} curIndex={this.state.curIndex} ></TabContent>
+              </div>
+          );//render必须将组件的jsx返回
+        }
+       }
+
+       class TabButton extends React.Component{
+         
+         render(){
+           return(
+             <div className="tab-btn">
+                {this.props.tabDatas.map((val,index)=>{
+                  return (<input key={index} value={val.title} className={index==this.props.curIndex?"active":''} type="button" onClick={()=>this.props.changeIndex(index)}/>)
+                })}
+              
+              </div>
+           );//render必须将组件的jsx返回
+         }
+        }
+
+        class TabContent extends React.Component{
+         
+         render(){
+           return(
+             <div>
+                {this.props.tabDatas[this.props.curIndex].content}
+              </div>
+           );//render必须将组件的jsx返回
+         }
+        }
+
+
+       ReactDOM.render(<App/>,document.getElementById('root'))
+    
+    
+    </script>
+  
+</body>
+</html>

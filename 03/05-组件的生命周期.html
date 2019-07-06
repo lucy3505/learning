@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+
+    /*
+     new Vue({
+      el:"#app"
+      data:{
+        msg:'
+      }
+    })
+    
+    
+    Vue实例的生命周期：
+    1 创建Vue实例，初始化生命周期钩子函数
+
+    2.数据舰艇，初始化methods/computed
+    数据监听前调用beforeCreate钩子，数据监听后调用created钩子
+
+    3.获取模板，编译模板，模板编译完成后会将所编译的模板挂在到真实DOM中，用render函数生成虚拟DOM，
+    挂着在前会回调beforeMount钩子，挂在后会回调mounted钩子函数
+    //上面为挂载阶段
+
+    4.数据更新，导致视图更新
+    视图更新前会回调beforeUpdate钩子，在视图更新后会回调updated钩子
+    //更新阶段
+
+    5.销毁（当调用$destroy()方法）
+    销毁前会调用beforeDestory钩子，销毁后会回调destoryed钩子
+    //销毁阶段
+    
+   
+    1.beforeCreate/created
+
+    2.
+
+    beforeMount/mounted
+
+    3.
+
+    beforeUpdata/updated
+
+    4.
+    beforeDestory/destoryed
+    */
+
+    class App extends React.Component{
+      constructor(props){
+        super(props)
+        console.log('App的构造函数被调用了...')
+        this.state={
+          person:{}, //要改person值可以在componentWillMount里，也可以在DidMount里用setState改变，setState会再次更新视图
+          content:'aaa'
+        }
+      }
+
+      componentWillMount(){
+        //组件即将挂在的声明周期钩子函数，相当于Vue中beforeMount钩子
+        console.log('App即将挂载。。。componentWillMount')
+        this.setState({
+          content:'bbb'
+        })
+      }
+      componentDidMount(){
+        console.log('App挂载完成了....componentDidMount')
+        this.setState({
+          content:'ccc'
+        })
+      }
+      render(){
+        console.log('App组件挂载。。。render函数被调用了....')
+        return(
+          <div>
+            <h1>{this.props.title}</h1>
+            <p>{this.state.content}</p>
+            <button onClick={this.changeState.bind(this)}>修改状态</button>
+          
+          </div>
+        )
+
+      }
+      changeState(){
+        this.setState({//自动触发shouldComponentUpdate调用
+          content:'ddd'
+        })
+      }
+      shouldComponentUpdate(nextProps,nextState){
+        console.log('App组件应该更新了。。。。shouldComponentUpdate')
+        //第一个参数是当前最新的属性对象
+        //第二个参数是当前 组件最新的状态对象
+        //返回值为boolean,true（表示即将更新视图，接下来会调用render函数）
+                //false(表示不更新视图，生命周期从这里终止)
+                return true//默认返回true  只有挂载完成后，也就是回调完4个钩子函数后，再运行了setState或别的更新的时候才会促发这个海曙，componentDidMount里的setState还是有效的,但是DidMount就无效了，因为DidMount是已经完成了加载再去setState,这时候的setState就是去更新了
+                //return false 不会去调用render了  this.setState会自动出发shouldComponentUpdate
+      }
+      componentWillUpdate() {
+        console.log('App组件即将更新....componentWillUpdate')
+      }
+      componentDidUpdate(prevProps,prevState){
+        console.log('App组件已经更新完成...componentDidUpdate')
+      }
+    }
+    
+    ReactDOM.render(<App title="hello,world"/>,document.getElementById('root'))
+    /*挂载阶段  4个函数调用
+      1.调用组件的构造函数，实例化一个对象，上面class App只是一个声明，只有被调用了才会去实例化
+        ReactDOM.render的时候，有人去调用App,这时候生命周期才开始，如果调用两次<App/>就有两次App生命周期，
+        首先做的就调用构造函数，实例化App，同时会把App上的属性传过去
+        const app=new App({title:"hello world"})  //得到一个对象--》组件对象
+      2.组件挂在前会回调componentWillMount()
+        app.componentWillMount()
+      3.调用render函数渲染页面，挂在组件
+        app.render() 得到JSX标签，用react.createElement得到DOM描述对象，然后进行比较diff算法，然后渲染到真DOM
+                    //{tyoe:'div',props:{children:[{type:'h2}]}}
+        在react中维持了一个内存中的虚拟DOM描述对象，
+        render函数被调用后返回的是DOM的描述对象，React会将本次render函数返回的描述对象进行对比
+        比较出两个对象的不同然后以最快的速度去更新真实DOM
+
+        //只有用render才会有视图更新
+      4.挂载后，React会回调componentDidMount()钩子函数
+      //上面4步相当于就挂载完成了
+
+      更新阶段---分两种  默认也是4个回调函数  componentShouldUpdate---componentWillUpdate---render---componentDidUpdate
+        一种是自身数据更新，还有一种可能是父组件数据导致更新。事例中的title是父组件里的title属性传过来的，如果title值变了视图也会更新
+        第一种更新：子组件自身状态变化导致视图更新
+        5.当用户调用setState时，促发shouldComponentUpdate调用
+        如果shouldComponentUpdate返回值为true（默认即为true）,则会更新视图，如果返回false则不会更新视图
+        6.更新视图前会回调componentWillUpdate()
+        7.调用render函数，更新视图
+        8.更新完成，会回调componentDidUpdate
+      
+      //第二种，父子间的render函数调用导致视图更新
+      5.调用子组件的compoentnWillReceiveProps函数
+      6.调用shouldComponentUpdate钩子函数
+      7.如果shouldComponentUpdate返回true，则调用componentWillUpdate,否则终止
+      8.调用render函数，更新视图
+      9.更新完成，会回调componentDidUpdate
+
+      卸载，
+      10.调用componentWillUnmount钩子函数
+
+      函数式组件没有生命周期，React.createClass组件没有构造函数，其他都一样，它不是用constructor构造函数来初始化，只有挂载的初始化阶段不同，而是用
+      getInitialState(){
+        return{
+          //初始状态
+        }
+      }   以及getDefalutProps方法（初始化属性)
+    
+    */
+
+    //优化:shouldComponentUpdate这个函数可以优化，减少子组件render次数，减少没必要的调用
+
+
+    </script>
+  
+</body>
+</html>

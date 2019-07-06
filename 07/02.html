@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./react-router-dom.js"></script>
+    <script src="./redux.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //count数据  用redux存
+    //VUEX的使用：1）创建容器 定义state,action,mutation 2）容器挂载到Vue实例上  3）组件获取状态或修改状态
+    //Redux:
+    //reducer:用于产生state的函数  定义reducer才能知道count是什么数据
+   //                        reducer根据对应的action产生state
+    //action 是个普通对象，用于记录用户的行为  里面属性其实可以随便定，但规范上一般是给{type:''}
+    // store  根据reducer函数创建
+
+//六步骤
+    //1.定义Reducer:是个函数  怎么定义随意 名字随便取,但是里面参数的含义是固定的
+    //第一个参数，上一次的状态  state是由reducer创建的，所以一次都没调用的时候可能没有定义，可以给个初始化  
+    //第二个参数是用户提交的action对象
+    //返回值为新状态
+    function myCount(state=0,action){
+      //这个state其实就代表count
+      //reducer就是根据action产生state
+      //传递给我的action到底是个什么行为，所有要根据action.type判断
+      //reducer最终返回的是一个新状态
+      switch(action.type){
+        case 'ADD':
+          return state+1
+        case 'SUB':
+          return state-1
+          //一定要定义默认情况
+        default:return state   //返回旧状态
+      }
+    }
+
+
+    //2.reduce做好后创建容器
+    //  创建store:用Redux.createStore     这个方法接受一个参数，就收Reducer作参数  根据这个Reducer就能产生容器（store)
+    const store=Redux.createStore(myCount)
+
+    //3.有时候可写可不写，简单的话可以不写  创建Action函数，Action Creator  是个函数，作用是创建action（一个对象）  return一个对象
+      //可以由参数也可以没有
+    function setCount(type){
+      //返回Action
+      return{
+        type
+      }
+    }
+
+    //4 创建组件   获取状态   修改状态
+    class App extends React.Component{
+      add=()=>{
+        //让状态+1   reducer已将帮你做了  只要去执行一遍就行
+        //只要去调用reducer  这时候用store.dispatch  store是全局变量
+        //dispatch参数为action
+        //addCount就是帮我们生成action对象的   所以这里得dispatch的参数就位action函数  否则简单的话可以不用这个addCount函数  直接store.dispatch({type:"ADD"})
+        store.dispatch(setCount('ADD'))
+        //一dispatch  马上就会去调用reducer函数（也就是myCount)，action传给myCount的第二个参数  这时候state就变了  state+1了
+        //但这时候是不会更新视图的
+      }
+      sub=()=>{
+        //让状态-1
+        store.dispatch(setCount('SUB'))
+      }
+
+      render(){
+        return(
+          <div>
+            {/*获取状态 store.getState()   拿到了state(就是count数字）*/}
+            <p>{store.getState()}</p>
+            <button onClick={this.add}>+</button>  
+            <button onClick={this.sub}>-</button>  
+          </div>
+        )
+      }
+    }
+    //5.渲染组件
+    ReactDOM.render(<App/>,document.getElementById('root'))
+
+    //6.监听状态变化，重新渲染页面  store.subscribe会自动监听state的更新
+    store.subscribe(function(){
+      ReactDOM.render(<App/>,document.getElementById('root'))
+    })
+
+    
+    </script>
+  
+</body>
+</html>

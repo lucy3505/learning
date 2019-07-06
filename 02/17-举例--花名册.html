@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //划分ui:
+    //App-->AddPerson-->PersonTable  -->PersonHeader /PersonItem
+
+      class App extends React.Component{
+        //如果组件内某一个或一些数据需要发生变化且其变化要影响视图的更新，应该将这些数据定义成状态state
+        //函数式组件是无状态的
+        constructor(props){
+          super(props)
+        //数据提升
+        // this.person=[{
+        //             name:'张三',
+        //             sex:'男',
+        //             age:19
+        //           },
+        //           {
+        //             name:'里斯',
+        //             sex:'男',
+        //             age:22
+        //           },
+        //           {
+        //             name:'丫丫',
+        //             sex:'女',
+        //             age:29
+        //           }]
+
+        //状态的初始化，并于React.Component组件是在构造函数中进行
+        this.state={
+          person:[{
+                    name:'张三',
+                    sex:'男',
+                    age:19
+                  },
+                  {
+                    name:'里斯',
+                    sex:'男',
+                    age:22
+                  },
+                  {
+                    name:'丫丫',
+                    sex:'女',
+                    age:29
+                  }]
+        }
+    }
+        addPerson=()=>{
+          // this.person.push({
+          //   name:'小米',
+          //   sex:'女',
+          //   age:22})
+          //   console.log(this.person)//person数据是变了  但不会引起视图变化，且父组件传值这个值变了子组件也是不会变的
+            //状态的修改  需要通过this.setState方法修改  修改后会重新运行render
+            this.setState({
+              //重新赋值状态
+              person:[
+                ...this.state.person,//展开运算符
+                //新增一条新的数据
+                {
+                  name:'小米',
+                  sex:'女',
+                  age:22
+                }
+              ]
+            })
+
+
+
+          // this.state.person.push()//无法修改
+        }
+        //AddPerson要往PersonTable里添加数据，相当于往兄弟组件加数据，可以，但麻烦，现在只会用props来传数据，可以把兄弟组件的数据提上来
+        render() {
+          return (<div>
+          {/*状态的获取  this.state.xxx*/}
+            <PersonTable person={this.state.person}/>
+            <AddPerson person={this.state.person}/>
+            <button onClick={this.addPerson}>App中的添加按钮</button>
+          </div>)
+        }
+      }
+
+      class AddPerson extends React.Component{
+        constructor(props){
+          super(props)
+        }
+        add=()=>{
+          this.props.person.push({
+            name:'小米',
+            sex:'女',
+            age:22
+          })
+          // console.log(this.props.person)//4条数据，push的这条也进去了
+        }
+        render(){
+          return(<div>
+            姓名:<input/>
+            性别:<input/>
+            年龄:<input/>
+            <button onClick={this.add}>添加数据</button>
+          
+          </div>)
+        }
+      }
+
+      class PersonTable extends React.Component{
+        constructor(props){
+          super(props);
+          this.headers=['姓名','性别','年龄']
+          
+        }
+        render() {
+          return (
+            <table>
+              <PersonHeader title={this.headers}></PersonHeader>
+              <tbody>
+                {
+                  this.props.person.map((val,index)=>{
+                    return <PersonItem content={val} key={index}></PersonItem>
+                  })
+                }
+              
+              </tbody>
+            
+            </table>
+          )
+        }
+      }
+      function PersonHeader(props){
+        return(<thead>
+        <tr>
+          {props.title.map((value,index)=>{
+            return(<th key={index}>{value}</th>)
+          })}
+          </tr>
+          </thead>
+        )
+      }
+      class PersonItem extends React.Component{
+        render() {
+          return(
+          <tr>
+          {/*
+            <td>{this.props.content.name}</td>
+            <td>{this.props.content.sex}</td>
+            <td>{this.props.content.age}</td>*/}
+            {/*遍历对象还可以用这个方法，效果同上*/}
+            {
+              Object.keys(this.props.content).map((name,index)=>{
+                return <td key={index}>{this.props.content[name]}</td>
+              })
+
+            }
+          </tr>
+          )
+        }
+      }
+
+        
+     
+
+    ReactDOM.render(
+      <div><App  title='fsf' content='传递给Child的内容' age={123}/></div>,document.getElementById('root'))
+   //React.createClass定义的组件，事件函数的this是自动绑定到当前实例上，不需要任何处理
+    </script>
+</body>
+</html>

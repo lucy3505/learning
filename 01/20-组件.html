@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <!-- 也有引browser.js 本质上也是babel-->
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    
+    //App是自定义组件，如何定义？三种方式
+    //第一种，函数式组件，这种方式性能好，但有局限性
+    //函数名为组件名（组件名的首字母必须大写,否则报错）
+      function App(props){
+        //参数props适用于存储组件属性值的对象
+        //组件的属性就是参数，属性会变成一个个键值形成一个对象作为参数传给函数
+        //组件的属性都自动会
+        console.log(props)
+        //组件函数内必须要有return,将组件的模板（JSX编写）返回
+        //组件也必须要有根元素对象
+        return (<h1>hello,component</h1>)
+      }
+      const a="我是变量"
+      //给了个content属性，这个属性可以是字符串也可以是变量
+    ReactDOM.render(<App content='我是content给你的数据' value={a }></App>,document.getElementById('root'))
+    </script>
+  
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .box{
+      color: red
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <!-- react 和reactDOM是有依赖关系的，react要放在前面-->
+  <script src="./react.js"></script>
+  <script src="./react-dom.js"></script>
+  <script src="./babel.min.js"></script>
+  <script type="text/babel">
+  const myId="div"
+  // class在js里是关键字，在html是可以直接当属性,在js中不可以，jsx本质上还是js,babel生成js对象，然后有react渲染到节点，写成class会以为生成一个类，所以在JSX中如果给元素设置属性，多个单词要以驼峰命名，class写成className
+  //元素取变量用{}，属性取变量也用{},比如id
+  //标签一定要闭合
+  //jsx中的注释{/*jsx注释*/}
+    ReactDOM.render((<h1 className="box" id={myId}>
+      {/*jsx注释*/}
+      hello.,world</h1>),
+      document.getElementById('root'))
+  </script>
+
+</body>
+</html>

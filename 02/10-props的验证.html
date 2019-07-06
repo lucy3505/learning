@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //props用于接受组件的属性的对象
+   const App = React.createCkass({
+    //React.createClass还支持下面得方式设置props验证
+     propTypes:{
+      title:React.PropTypes.string,
+       age:React.PropTypes.number.isRequired,
+     }
+     
+     
+     render() {
+       return (
+         <div>
+            <h1>我要显示字符串：{this.props.title}</h1>
+            <h1>我要显示数字：{this.props.age}</h1>
+          </div>
+       )
+     }
+  }
+  //开发模式下才有这种警告提是，上线后就没有了
+     //通过设置  类名.propsTypes 来设置props验证
+     //三证方式都支持下面得验证设置
+    //  App.propTypes={
+    //    title:React.PropTypes.string,
+    //    age:React.PropTypes.number.isRequired,//类型库，React15.5以前得版本支持React.PropTypes对象进行验证
+    //  }
+   //如果age不是数字类型且没传值则会报警告
+     //对于React15.5以后得版本不支持React.PropTypes对象，需要额外导入prop-types库
+     //cnpm install prop-types --save
+     //import PropTypes from 'prop-types';
+     //用PropTypes对象代替React.PropTypes对象
+    ReactDOM.render(
+      <div><App  title='fsf' content='传递给Child的内容' age={123}/></div>,document.getElementById('root'))
+   
+    </script>
+</body>
+</html>

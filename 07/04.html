@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  .del{
+    text-decoration: line-through
+  }
+  </style>
+</head>
+<body>
+  <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./react-router-dom.js"></script>
+    <script src="./redux.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //1.设置reducer
+      function todoList(state=[],action){
+        switch (action.type) {
+          case 'ADD_LIST':
+            
+            return [
+              ...state,
+              action.payload
+            ]
+          case 'DELETE_ITEM':
+            return [
+              ...state.slice(0,action.index),
+              ...state.slice(action.index+1)
+            ]
+          case 'TOGO_TODO':
+            return [
+            ...state.slice(0,action.index),
+              Object.assign(state[action.index],{isCompleted:!state[action.index].isCompleted}),
+              ...state.slice(action.index+1)
+            ]
+          case 'CLEAR_LIST':
+            return []
+              
+            
+          default: return state
+            
+        }
+      }
+
+      //多个reducer可以合并
+
+      const totalCount=function(state=0,action){
+        switch(action.type) {
+          case 'CHANGE_TOTAL': //修改总数量
+            return action.payload
+          case 'ADD_TOTAL':
+            return state+1
+          case 'SUB_TOTAL':
+            return state-1
+          default: return state
+        }
+      }
+
+    //combineReducers的参数，为一个对象，该对象key是state中的属性，value是产生对应state的reducer函数
+      const allReducer=Redux.combineReducers({
+        todoList,
+        totalCount
+      })
+
+    //2.创建容器
+    const store=Redux.createStore(allReducer)
+    
+    //3.设置action Creator
+    function addlist(payload){
+      return {
+        type:'ADD_LIST',
+        payload
+      }
+    }
+    function deleteItem(index){
+      return {
+        type:'DELETE_ITEM',
+        index
+      }
+    }
+    function check(index){
+      return {
+        type:'TOGO_TODO',
+        index
+      }
+    }
+
+
+    //定义totalChange的Action Creator
+    function changeTotalCount(){
+      return 
+    }
+    //4 创建UI
+
+    class App extends React.Component{
+      render(){
+        return(<div>
+          标签内容
+          <TodoList/>
+          <AddItem/>
+          </div>)
+      }
+    }
+
+  class TodoList extends React.Component{
+
+    del=(index)=>{
+      store.dispatch(deleteItem(index))
+    }
+    check=(index)=>{
+      store.dispatch(check(index))
+    }
+    render(){
+      return(<ul>
+        {store.getState().todoList.map((val,index)=>{
+          return(<li>
+            <input type="checkbox" checked={val.isCompleted} onChange={e=>this.check(index)} />
+            <span  className={val.isCompleted?'del':''}>{val.content}</span>
+            <button onClick={e=>this.del(index)}>删除</button>
+            </li>)
+        })
+        
+        }
+        </ul>)
+    }
+  }
+
+  class AddItem extends React.Component{
+    
+    add=()=>{
+        this.inputItem.value!==''?store.dispatch(addlist({content:this.inputItem.value,isCompleted:false})):alert('请输入事件')
+      }
+    render(){
+      return(<div>
+          <input ref={(el)=>this.inputItem=el}/>
+          <button onClick={this.add}>保存</button>
+        
+        </div>)
+    }
+  }
+
+
+  function render(){
+    ReactDOM.render(<App/>,document.getElementById('root'))
+  }
+  render()
+  store.subscribe(render)
+    
+    </script>
+</body>
+</html>

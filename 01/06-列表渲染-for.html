@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="./react.js"></script>
+  <script src="./react-dom.js"></script>
+  <script src="./babel.min.js"></script>
+  <script type="text/babel">
+
+
+    var arr = ['aaa','nnnn','ccc']
+    //此时展开是没有标签得，希望套上标签
+    // const el=(<div>{arr}</div>)
+    
+    // var h2s=[]
+    // for(var i=0;i<arr.length;i++){
+    //   h2s.push(<h2>{arr[i]}</h2>)
+    //   //arr[i]要加{}，否则不是变量，会显示3个arr[i]
+    //   // h2s.push(<h2>arr[i]</h2>)
+    // }
+
+
+    var h2s=arr.map(function(curVal,index){
+      return <h2>{curVal}</h2>
+    })
+    //{}是支持map语句得，for循环是不支持得
+    const el=(<div>{h2s}</div>)
+
+    ReactDOM.render(el,document.getElementById('root'))
+  
+  </script>
+  
+</body>
+</html>

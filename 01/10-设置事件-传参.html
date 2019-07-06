@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="./react.js"></script>
+  <script src="./react-dom.js"></script>
+  <script src="./babel.min.js"></script>
+  <script type="text/babel">
+    function show(param){
+      //参数为事件对象
+      console.log(param)
+      console.log(this)//show.bind(this,'hello') 此时this为undefined 即不是button 也不是window,要指向window就把this改为window
+      alert('aaaa')
+    }
+    //需求是点按钮弹出a
+    /*
+    JSX设置事件：
+        元素属性得事件名要驼峰命名，如onClick，
+        事件函数赋值时用{}函数对象，如{show},不是函数调用,如{show()}
+        JSX中给事件属性赋值时一定时函数对象
+
+        //bind方法用于改变函数得this,第二，三。。。个参数为传递给函数得实参，返回值为函数本身
+        show.bind(this,'hello')//这个返回值是函数本身
+
+        show.apply(this,['aaaa']);
+        show.call(this,'aaa')//函数return 后得结果
+    */
+    ReactDOM.render((<div>
+                {/*当前访问得this为undefined，既要传参又要拿事件源怎么办？*/}
+                <button onClick={show.bind(this,'hello')}>按钮</button>
+                </div>),document.getElementById('root'))
+  
+  </script>
+  
+</body>
+</html>

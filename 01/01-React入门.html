@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script  src="./react.js"></script>
+  <script src="./react-dom.js"></script>
+  <!-- 将JSX语法转换为JS语法 -->
+  <script src="./babel.min.js"></script>
+
+  <script type="text/babel"> //只有写了type="text/babel"babel才会去编译，否则引入了babel也没有用 写了这个才会针对babel类型去编译
+    //javaScript XML:JSX,即在JS中得XML  XML就是<>
+    ReactDOM.render(<h1>hello,React</h1>,
+              document.getElementById('root'));
+    // ReactDOM是react-dom里所导出来得对象，render函数将节点渲染到指定得视图上去，第一个是视图（<h1>hello,react</h1>），第二个就是要渲染得点,documenrt.getElementById('root')  原生得dom元素对象,h1标签在html里没问题，但你见过它写在js里没有？写在js里都要用引号，没有引号要不是变量，变量是没有<号得
+  </script>
+
+</body>
+</html>

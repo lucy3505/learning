@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    //组件
+      class App extends React.Component{
+        //在构造函数中初始化state
+        constructor(props){
+          super(props)
+          this.state={
+            arr:[{
+              isComplete:false,
+              content:'11'
+            }],
+            value:'',
+
+          }
+ 
+        }
+        add=()=>{
+          this.setState({
+            arr:[
+              ...this.state.arr,
+              {content:this.state.value,
+               isComplete:false
+              }
+            ]
+          })
+        }
+
+        change=(e)=>{
+          this.setState({
+            value:e.target.value
+          })
+        }
+
+        delList=(i)=>{
+          // var arr=this.state.arr
+          // arr.splice(i,1)
+          // this.setState({arr})
+          //上面这种不能保证纯组件得变化，下面这种可以
+          //slice(start,end)方法可以从已有得数组中返回选定得元素，返回一个新的数组，含头不含尾
+          this.setState({
+            arr:[
+            ...this.state.arr.slice(0,i),
+            ...this.state.arr.slice(i+1)
+            ]
+          })
+       //arr给了个新的[]  所以是新的数组，上面写法还是原来得组数，这个写法也达到了删除一个元素得目的
+        }
+
+        changeBox=(i)=>{
+          this.setState({
+            arr:[
+              ...this.state.arr.slice(0,i),
+              Object.assign({},this.state.arr[i],{
+                isComplete:!this.state.arr[i].isComplete
+              }),
+              ...this.state.arr.slice(i+1)
+            ]
+          })
+        }
+
+
+        render(){
+          return (<div>
+            <h2>Todo List</h2>
+            <ul>{
+              this.state.arr.map((val,index)=>{
+                return(
+              <li key={index}>
+                <input type="checkbox" checked={val.isComplete} onChange={()=>{this.changeBox(index)}}/>
+                <strong>{val.content}</strong>
+                <button onClick={()=>{this.delList(index)}}>删除</button>
+              </li>)}) 
+              }
+            </ul>
+            
+            <input value={this.state.value} onChange={(e)=>{this.setState({value:e.target.value})}}/><button onClick={this.add}>添加</button>
+            {/* 等价于上面得效果   这种实现就相当于v-model  是受控组件 <input value={this.state.value} onChange={this.change}/><button onClick={this.add}>添加</button>*/}
+          
+          </div>
+          )
+        }
+      }
+
+       
+        
+     
+
+    ReactDOM.render(
+      <div><App add={11}/></div>,document.getElementById('root'))
+
+    </script>
+</body>
+</html>

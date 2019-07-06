@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    //1.函数是组件（无状态组件），精简到只有render函数的功能，不会被实例，整体渲染性能是最好
+    //               只能纯展示，不能改变数据，没有生命周期，没有状态（state,组件的状态，组件是有状态的）
+    //2.类组件，利用React.Component定义组件或React.createClass定义组件
+            //如果函数式组件无法满足要求，React推荐尽量用React.Component定义组件
+            //React.Component: 1)函数this默认指向undefinded  2)props初始化不一样  3）状态state初始化不一样  4）props的验证方式不一样  5）混合方式不一样（组件混合）
+
+            //React.createClass:1）函数this默认指向实例对象
+
+
+        class MyApp extends React.Component{
+          show() {
+            //this--->默认是undefined
+            this.props.title()
+          }
+          render() {
+            return (<div onClick={this.show}>1111</div>)
+
+          }
+        }
+    const MyApp = React.createClass({
+      show(){
+        //this---->默认是当前的实例对象
+      },
+      render() {
+            return (<div onClick={this.show}>1111</div>)
+
+          }
+    })
+
+    //myMixins={}
+    //把一些组件公共的属性和方法放在一个myMixins里然后调到组件里，用mixins这个属性来访问
+    Vue.component('',{
+      mixins:[myMins]
+    })
+    
+    </script>
+  
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+
+    class App extends React.Component{
+      constructor(props){
+        super(props)
+        this.state={
+          isChecked: true
+        }
+      }
+      handleCheck=()=>{
+        //setState是异步操作，尽量用function
+        this.setState(function(preState,props){
+          return{
+            isChecked:!preState.isChecked
+          }
+        })
+      }
+      render(){
+        return(
+          <div>
+            
+            {/* <input type="checkbox" v-model="msg"/>  */}
+            {/*value对checkbox无用，只有checked可以改变勾选
+              input输入元素接收外界输入时触发的事件是onChange事件 checkbox只是input的一种type
+            */}
+            <input type="checkbox" value={this.state.isChecked} checked={this.state.isChecked} onChange={this.handleCheck}/>
+            {/*react中bool值无法显示*/}
+            <p>{this.state.isChecked?'true':'false'}</p>  
+          </div>
+        )
+      }
+    }
+    
+    
+    
+    ReactDOM.render(<App/>,document.getElementById('root'))
+    
+    </script>
+  
+</body>
+</html>

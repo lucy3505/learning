@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+
+      //高阶组件就是一个函数，且该函数接收一个组件作为参数，并返回一个新的组件。参数是组件，返回值是新组件
+      //定义高阶组件  //WrapedComponent是包裹组件就是传进去的组件，然后要传出来一个新的组件  出来的组件就包含了新的方法之类的
+      function withSubCom(WrapedComponent) {
+        //return一个新组件   除了少一个名字之外，它是一个组件定义
+        return class extends React.Component{
+          //这里面可定要把公共的东西定义好，特有的交给传进来的包裹组件
+          //公共的部分，此时新组建（class extends React.Component）和包裹组件是父子关系  子组件可以通过props接收参数 例如：onClick={this.props.show}
+          componentWillMount() {
+            console.log('component will mount..')
+          }
+
+          show() {
+            console.log('show....')
+          }
+
+
+          render(){
+            return(
+              <WrapedComponent show={this.show}/>
+            )
+          }
+        }
+      }
+
+
+    class MyComponent1 extends React.Component{
+      //现在这个组件不是我们期望的完整的组件  因为缺少show函数
+    componentWillMount(){
+      console.log('组件1即将挂载....')
+    }
+    render(){
+      return(
+        <div >
+          {/*能调用到公共的show*/}
+          组件1<button onClick={this.props.show}>show</button>
+        </div>
+      )
+    }
+  }
+
+  class MyComponent2 extends React.Component{
+     
+
+     //要调用自定义的show  此时onClick的show调用就不用写成this.props.show   写成this.show就是调用自己的show
+     //利用包含思想  解决组件的重用
+     show=()=>{
+       console.log('组件2的show...')
+     }
+    render(){
+      return(
+        <div>
+          组件2....<button onClick={this.show}>show</button>
+        </div>
+      )
+    }
+
+  }
+
+  //变成我们期望的组件  下面就变成我们期望的组件
+  const EnhanceComponent1=withSubCom(MyComponent1)
+  const EnhanceComponent2=withSubCom(MyComponent2)
+    
+    
+
+
+    ReactDOM.render(<div><EnhanceComponent1 /><h2/><EnhanceComponent2 /></div>,document.getElementById('root'))
+
+
+
+    </script>
+    高阶组件总结：<br/>
+    高阶组件是一个普通函数，可以接收任何参数，能够接收一个组件并返回一个新的组件<br/>
+    高阶组件模式允许我们在一个地方定义逻辑并且能对所有的组件使用<br/>
+    高阶组件是通过将原组件 包裹(wrapping)在容器组件(container component)里面的方式来组合(composes)使用原组件<br/>
+    高阶组件不会修改被包裹组件，高阶组件通过props将数据和方法告知给子组件，除了给被包裹组件传递容器组件新增的数据外，还要将容器组件已有的props传递给被包裹的组件<br/>
+    通过props可以将容器组件的state.props.event等都传递给被包裹组件，但不能传毒ref属性<br/>
+    不要在render函数中调用高阶组件，这样会是的每次得到的容器组件都是一个新组件，重新加载一个组件会引起原有组件的所有状态和子组件丢失，并且性能非常差<br/>
+    被包裹组件被容器组件包裹，也就意味着新组件（容器组件）会丢失原始组件（被包裹组件）的所有静态方法，因此必须将被包裹组件的静态方法拷贝到容器组件上，如果有静态方法
+
+</body>
+</html>
+  
+</body>
+</html>
