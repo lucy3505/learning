@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <p><b>通过配置文件来使用Webpack</b></p>
+
+<p>Webpack拥有很多其它的比较高级的功能（比如说本文后面会介绍的loaders和plugins），这些功能其实都可以通过命令行模式实现，但是正如前面提到的，这样不太方便且容易出错的，更好的办法是定义一个配置文件，这个配置文件其实也是一个简单的JavaScript模块，我们可以把所有的与打包相关的信息放在里面。</p>
+
+<p>继续上面的例子来说明如何写这个配置文件，在当前练习文件夹的根目录下新建一个名为webpack.config.js的文件，我们在其中写入如下所示的简单配置代码，目前的配置主要涉及到的内容是入口文件路径和打包后文件的存放路径。</p>
+
+<pre>
+    module.exports = {
+      entry:  __dirname + "/app/main.js",//已多次提及的唯一入口文件
+      output: {
+        path: __dirname + "/public",//打包后的文件存放的地方
+        filename: "bundle.js"//打包后输出文件的文件名
+      }
+    }
+
+
+
+</pre>
+<p><b>注：“__dirname”是node.js中的一个全局变量，它指向当前执行脚本所在的目录。</b></p>
+
+<p>有了这个配置之后，再打包文件，只需在终端里运行webpack(非全局安装需使用node_modules/.bin/webpack)命令就可以了，这条命令会自动引用webpack.config.js文件中的配置选项，示例如下：</p>
+
+<pre>
+
+  webpack --mode development
+
+</pre>
+
+<p><b>更快捷的执行打包任务</b></p>
+<p>npm可以引导任务执行，对npm进行配置后可以在命令行中使用简单的npm start命令来替代webpack略微繁琐的命令。在package.json中对scripts对象进行相关设置即可，设置方法如下。</p>
+<pre>
+
+    {
+      "name": "webpack-sample-project",
+      "version": "1.0.0",
+      "description": "Sample webpack project",
+      "scripts": {
+        "start": "webpack" // 修改的是这里，JSON文件不支持注释，引用时请清除
+      },
+      "author": "zhang",
+      "license": "ISC",
+      "devDependencies": {
+        "webpack": "3.10.0"
+      }
+    }
+
+</pre>
+</body>
+</html>
