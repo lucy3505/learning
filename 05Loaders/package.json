@@ -1,12 +1,13 @@
 {
-  "name": "04webserver",
+  "name": "05loaders",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --mode development",
-    "server": "webpack-dev-server --open"
+    "server":"webpack-dev-server --open"
+    
+    
   },
   "author": "",
   "license": "ISC",

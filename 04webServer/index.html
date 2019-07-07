@@ -5,8 +5,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <style>
+      table,table tr th, table tr td { border:1px solid #0094ff; }
+      table { line-height: 25px; text-align: center; border-collapse: collapse;}   
+  </style>
 </head>
 <body>
   <p><b>使用webpack构建本地服务器</b></p>
+  <p>
+    想不想让你的浏览器监听你的代码的修改，并自动刷新显示修改后的结果，其实Webpack提供一个可选的本地开发服务器，这个本地服务器基于node.js构建，可以实现你想要的这些功能，不过它是一个单独的组件，在webpack中进行配置之前需要单独安装它作为项目依赖
+  </p>
+  <pre>
+
+      npm install --save-dev webpack-dev-server
+
+  </pre>
+  <p>devserver作为webpack配置选项中的一项，以下是它的一些配置选项，更多配置可参考https://webpack.js.org/configuration/dev-server/</p>
+
+  <table>
+    <tbody >
+      <tr>
+        <td style="width: 300px"> <b>devserver的配置选项</b></td>
+        <td style="width: 600px"><b>功能描述</b></td>
+      </tr>
+      <tr>
+        <td>contentBase</td>
+        <td>默认webpack-dev-server会为根文件夹提供本地服务器，如果想为另外一个目录下的文件提供本地服务器，应该在这里设置其所在目录（本例设置到“public"目录）</td>
+      </tr>
+      <tr>
+          <td>port</td>
+          <td>设置默认监听端口，如果省略，默认为”8080“</td>
+      </tr>
+      <tr>
+          <td>inline</td>
+          <td>	设置为true，当源文件改变时会自动刷新页面</td>
+      </tr>
+      <tr>
+          <td>historyApiFallback</td>
+          <td>在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html</td>
+      </tr>
+
+
+    </tbody>
+    
+  </table>
+  <p>把这些命令加到webpack的配置文件中</p>
+
+  <pre>
+      module.exports = {
+        devtool: 'eval-source-map',
+      
+        entry:  __dirname + "/app/main.js",
+        output: {
+          path: __dirname + "/public",
+          filename: "bundle.js"
+        },
+      
+        devServer: {
+          contentBase: "./public",//本地服务器所加载的页面所在的目录
+          historyApiFallback: true,//不跳转
+          inline: true//实时刷新
+        } 
+      }
+
+
+  </pre>
+  <p>在package.json中的scripts对象中添加如下命令，用以开启本地服务器：</p>
+  <pre>
+
+      "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "webpack",
+        "server": "webpack-dev-server --open"
+      },
+
+
+  </pre>
+
 </body>
 </html>

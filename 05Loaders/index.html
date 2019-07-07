@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <p><b>回顾和感悟</b></p>
+  <p>1.直接把04的node_modules复制到05  省得下包，这时候package.json下其实是可以不用devDependencies:{"webpack":"^4.35"}  这个是npm i得时候下包用得  如果 你直接拉了需要得node_modules，不需要用npm i 命令</p>
+  <p>2.尝试在最外层(webpack学习)文件夹下建立package.json,把包也拉进去，并创立webpack.config.js文件，在webpack这个文件里面入口得路径改成05,06....以后就不用每个文件都下包，但每个文件夹里我们还是要写好packge.json,这样以后想要单独演示某个文件得时候，可以单独安装和查看，所以package.json里得devDependencies也是每个文件夹要写得，只是包可以不装，省空间</p>
+
+  <p><b>新知识：loaders</b></p>
+  <p>Loaders是webpack提供的最激动人心的功能之一了。通过使用不同的loader，webpack有能力调用外部的脚本或工具，实现对不同格式的文件的处理，比如说分析转换scss为css，或者把下一代的JS文件（ES6，ES7)转换为现代浏览器兼容的JS文件，对React的开发而言，合适的Loaders可以把React的中用到的JSX文件转换为JS文件。</p>
+  <p>Loaders需要单独安装并且需要在webpack.config.js中的modules关键字下进行配置，Loaders的配置包括以下几方面：</p>
+  <ul>
+    <li>test：一个用以匹配loaders所处理文件的拓展名的正则表达式（必须）</li>
+    <li>loader：loader的名称（必须）</li>
+    <li>include/exclude:手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）（可选）</li>
+    <li>query：为loaders提供额外的设置选项（可选）</li>
+  </ul>
+
+
+  <p><b>操作</b></p>
+  <p>在配置loader之前，我们把Greeter.js里的问候消息放在一个单独的JSON文件里,并通过合适的配置使Greeter.js可以读取该JSON文件的值，各文件修改后的代码如下：</p>
+    <p>在app文件夹中创建带有问候信息的JSON文件(命名为config.json)</p>
+
+    <pre>
+        {
+          "greetText": "Hi there and greetings from JSON!"
+        }
+
+    </pre>
+    <p>更新后的Greeter.js</p>
+    <pre>
+        var config = require('./config.json');
+
+        module.exports = function() {
+          var greet = document.createElement('div');
+          greet.textContent = config.greetText;
+          return greet;
+        };
+
+
+    </pre>
+    <p>注 由于webpack3.*/webpack2.*已经内置可处理JSON文件，这里我们无需再添加webpack1.*需要的json-loader。在看如何具体使用loader之前我们先看看Babel是什么？</p>
+</body>
+</html>
