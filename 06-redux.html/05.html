@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  
+  .del{
+    text-decoration: line-through
+  }
+  
+  </style>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./react-router-dom.js"></script>
+    <script src="./redux.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+
+    //1需求：todoList
+    //共享的state:[{count:'',isComplete:false}]
+    //修改的action：添加，删除
+
+      //1.定义Reducer：纯函数，不依赖除参数以外的数据，并且不改变函数以外的数据
+      //  state虽然是函数内的，但是是外面传进来的，push就把外面的数据改了
+      //                     相同的条件下重复调用还能得到相同的结果
+      const todoList = function(state=[],action){
+        switch (action.type) {
+          case 'ADD_LIST':
+            //  state.push(action.payload)  这是改了旧的状态  不能这么做   我们要保证reduce是纯函数，已有的状态是不能够改变的
+            //  return state
+            return[
+              ...state,
+              action.payload
+            ]
+          case 'DELETE_ITEM':
+            return [
+              ...state.slice(0,action.index),
+              ...state.slice(action.index+1)
+            ]
+          case 'CLEAR_LIST':
+            return []
+          case 'TOGO_TODO':
+            return [
+            ...state.slice(0,action.index),
+            Object.assign({},state[action.index],{isComplete:!state[action.index].isComplete}),
+              ...state.slice(action.index+1)
+            ]
+            return state
+          default: return state
+        }
+      }
+
+
+      const totalNum=function (state=0,action) {
+        switch(action.type){
+          case 'ADD_TOTAL':
+            return state+1
+          case 'SUB_TOTAL':
+            return state-1
+          
+        }
+      }
+    
+
+    const rootRedcer=store.combineReducers({
+      todoList,
+      totalNum
+    })
+    //2.创建容器 第一个参数就是reducer,第二个参数就是状态初始值（可选）
+      const store = Redux.createStore(rootRedcer)
+
+    //3.定义Action Creator
+    function addList(payload) {
+      return {
+        type:'ADD_LIST',
+        payload
+      }
+    }
+    function deleteList(index) {
+      return {
+        type:'DELETE_ITEM',
+        index
+      }
+    }
+    function clearList(payload) {
+      return {
+        type: 'CLEAR_LIST',
+        payload
+      }
+    }
+    function toggleTodo(index) {
+      return {
+        type:'TOGO_TODO',
+        index
+      }
+    }
+
+    function addNum() {
+      return {
+        type:'ADD_TOTAL'
+      }
+    }
+    
+    //4.设计组件
+    class App extends React.Component{
+      render(){
+    
+        return (<div>
+          <h1>用户标签</h1>
+          <TodoList />
+          <AddTodoItem />
+        </div>)
+      }
+    }
+    
+    class TodoList extends React.Component{
+
+      del=(index)=>{
+        store.dispatch(deleteList(index))
+      }
+
+      cancel=(index)=>{
+        store.dispatch(toggleTodo(index))
+      }
+      num = ()=>{
+        var idx=0
+        store.getState().map((val,index)=>{
+         for(var i in val){
+          
+           if(val[i]===true){ ;idx++}
+         }
+        })
+      
+        return idx
+      }
+
+      render(){
+        console.log(store.getState())
+        // console.log()
+        return(<div>
+          <ul>
+          {store.getState().map((val,index)=>{
+            return (<li key={index}>
+              <input  type="checkbox"  checked={val.isComplete} onChange={(e)=>{this.cancel(index)}} />
+              <span className={val.isComplete?'del':''}>{val.content}</span>
+              <button onClick={(e)=>this.del(index)}>删除</button>
+            </li>)
+          })}
+        
+        </ul>
+        <p>完成数：{this.num()}/{store.getState().length}</p>
+        
+        
+       </div> )
+      }
+    }
+
+    class AddTodoItem extends React.Component{
+      add = ()=>{
+        store.dispatch(addList({content:this.newText.value,isComplete:false}))
+   
+      }
+      render(){
+        return(<div>
+          <strong>任务</strong>
+          <input ref={(el)=>{this.newText=el}}/>
+          <button onClick={this.add}>保存</button>
+        
+        </div>)
+
+      }
+    }
+
+    function render(){
+      ReactDOM.render(<App/>,document.getElementById('root'))
+    }
+    render()
+
+    store.subscribe(render)
+    
+
+
+    </script>
+  
+</body>
+</html>

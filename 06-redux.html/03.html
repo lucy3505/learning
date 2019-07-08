@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./react-router-dom.js"></script>
+    <script src="./redux.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+   
+      //需求：共享数据count,行为有：加某个值，减某个值
+      //1.定义Reducer:Reducer是函数，用于根据就状态和Action产生新状态
+
+      //myCount这个函数由你去定义但不是不是由你直接去调用  而是由你去dispatch的时候由内部的Redux通过store自动的去调用
+      //所以里面的形参不能换顺序，调用者根据规则去调用的，所以要按规则去定义，第一个就要定义state,第二个是action
+      //redux的action个vuex不同  vuex的action是方法（函数），  redux的是对象  且有不成文的规则，要有一个type属性 不叫type也可以  不过都用type {type}
+      //state=0这个初始值可以在创建recuder的时候在形参里设置，也可以在第二步创建容器的时候指定
+      //action:{type:表示行为名称,payload:行为所携带的数据(推荐用payload)}
+      function myCount(state=0,action){
+      switch(action.type){
+        case 'ADD':
+          return state+action.payload
+        case 'SUB':
+          return state-action.payload
+          //一定要定义默认情况
+        default:return state   //返回旧状态
+      }
+    }
+
+      //2.创建容器 第一个参数就是recuder,第二个参数就是状态初始值（可选，但这里不写那么reducer(myCount)就要写，否则state就是undefined）
+      const store = Redux.createStore(myCount)
+
+      //3.定义创建Action的方法，Action Creator
+      function setCount(type,payload=1) {
+        
+        return {
+          type,
+          payload
+        }
+      }
+
+      //4.设计组件
+      class App extends React.Component{
+        add = ()=>{
+          store.dispatch(setCount('ADD',+this.input.value||1))
+        }
+        sub= ()=>{
+          store.dispatch(setCount('SUB',+this.input.value||1))
+        }
+        render(){
+          return(
+            <div>
+              <p>{store.getState()}</p>
+              <input ref={(el)=>{this.input=el}}/>
+              <button onClick={this.add}>+</button>   
+              <button onClick={this.sub}>-</button>   
+            </div>
+          )
+        }
+      }
+      function myRender(){
+        ReactDOM.render(<App/>,document.getElementById('root'))
+      }
+      myRender()
+
+      //这里只是讲的redux  redux本身是不能自动更新组件的（state变化的话）   后面有一个react-redux  这个做的是自动监听state变化  会直接引起视图变化  只用redux才有第五步
+
+      //5.监听状态改变 store.subscribe(myCount)是有返回值的  执行这个返回值就会解除监听
+      var unSubScribe=store.subscribe(myRender)
+
+      // setTimeout(()=>unSubScribe(),20000)//解除监听
+
+
+
+   
+    </script>
+  
+</body>
+</html>

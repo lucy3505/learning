@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  
+  .del{
+    text-decoration: line-through
+  }
+  
+  </style>
+</head>
+<body>
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./react-router-dom.js"></script>
+    <script src="./redux.js"></script>
+    <script src="./react-redux.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+
+
+   //1建立reducer
+    function reducer1(state=0,action){
+      switch (action.type) {
+        case "ADD":
+            return state+action.payload
+        case 'SUB':
+          return state-action.payload
+        default: return state
+      }
+    }
+
+    function reducer2(state=0,action){
+      switch(action.type) {
+        case "ADD2":
+            return state+action.payload
+        case 'SUB2':
+            return state-action.payload
+        default: return state
+      }
+    }
+
+
+  //2,创建store
+
+  const rootReducer=Redux.combineReducers({
+    reducer1,
+    reducer2
+  })
+  const store=Redux.createStore(rootReducer)
+
+  //3.创建action
+  function add1(payload){
+    return {
+      type:'ADD',
+      payload
+    }
+  }
+
+  function add2(payload){
+    return {
+      type:'ADD2',
+      payload
+    }
+  }
+
+  function sub1(payload){
+    return{
+      type:'SUB',
+      payload
+    }
+  }
+
+  function sub2(payload){
+    return{
+      type:'SUB2',
+      payload
+    }
+  }
+  //4  创建组件
+  class App extends React.Component{
+    //React-Redux的提供的根组件，让所有包含的组件能够获取state
+    //React-Redux将组件划分为：容器组件和UI组件
+    render(){
+      return(<ReactRedux.Provider store={store}>
+      
+      <ContainerComponent></ContainerComponent>
+      
+      </ReactRedux.Provider>)
+    }
+  }
+
+
+  //UI组件，只有界面和props
+  class UIComponent extends React.Component{
+
+
+
+    render(){
+      return(<div>
+        <p>{this.props.count}</p>
+        <button onClick={this.add}>+</button>
+        <button onCilck={this.sun}>-</button>
+      </div>)
+    }
+  }
+
+  //容器组件，通过ReactRedux.connect方法获取  这个方法本身有两个参数   再加一个UI组件
+  //mapStateToProps,mapDispatchToProps 这两个变量要定义出来，用常量变量都可以，他们都是一个函数
+  //mapStateToProps的参数是state,mapDispatchToProps的参数是dispatch
+  //将store的state映射为UI组件的props
+  function mapStateToProps(state){
+    return {
+      count:state
+    }
+  }
+  //将store的dispatch映射为UI组件的props
+  function mapDispatchToProps(dispatch){
+    return{
+      add:()=>{dispatch(add1(1))}
+    }
+}
+  
+  const ContainerComponent=ReactRedux.connect(mapStateToProps,mapDispatchToProps)(UIComponent)
+
+ 
+      ReactDOM.render(<App/>,document.getElementById('root'))
+
+    </script>
+
+
+  
+</body>
+</html>
