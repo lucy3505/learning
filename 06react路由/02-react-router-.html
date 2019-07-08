@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <!--
+    v4的react Router插件，react-router-dom
+
+    单页内视图切换：
+      视图容器/路径配置
+  -->
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./react-router-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+
+    // const Route = ReactRouterDOM.Route
+    // const Router=ReactRouterDOM.BrowserRouter
+
+    const {Route,HashRouter:Router} = ReactRouterDOM
+
+    class App extends React.Component{
+
+      render(){
+        return(
+          <Router>
+          <div>
+            <p>
+              <a href="#/home">首页</a>  
+              <a href="#/about">关于</a>  
+            </p>  
+            {/*上面是导航，下面就是容器了，react里完全是组件化的，不用像vue那样是配，而是把所有可能渲染的内容都放在下面
+              用Route组件列举所有的路由记录，一条路由记录就是一个组件，用替换组件占位，不能用自己的组件去占位，而要用它给我们的Route组件去占位
+              这个Route不是React的，是react-router-dom的，可能不是全局的，肯定是定义在某个对象上的，就像Component是定义在React上--》React.Component
+              console.log(ReactRouterDOM) //ReactRouterDOM就是react-router-dom所定义的全局对象
+              一般情况下我们这样去取值  const Route = ReactRouterDOM.Route
+            */}
+            {/*
+              Route怎么知道我们要渲染的是HOME组件呢？Route上有一些属性，例如pat,componet就是要渲染的组件是什么
+              当你路径切换到home的时候，Route组件就会被Home组件替换掉
+              只有Route还不够，React会不会去根据Route去匹配？在vue里面匹配默认是hash匹配  但在react中没有默认匹配  要自己指定  告诉是什么模式匹配否则跑不起来，报错：Uncaught Error: Invariant failed: You should not use <Route> outside a <Router>
+              而且Route要用根元素包裹一下才有效果
+            */}
+            {/*Router也要赋值，全局上是没有的  也在ReactRouterDOM里  Router在ReactRouterDOM里是抽象类，创造不出实例的 对V4来说是不能直接用的，v4要选择具体的类，具体的有4个Router对象
+            MemoryRouter ：用内存的方式存路径，不怎么用。一般和React native一起用
+            StaticRouter:静态路径，整个路径都不变  一般也不用
+            BrowserRouter:利用浏览器历史管理来实现。vue中吧mode改成history也就是这种
+            HashRouter:用hash值来做历史管理。vue中的hash
+            const Router=ReactRouterDOM.BrowserRouter
+
+            Router组件内必须有根元素  V2,V3里的根元素必须是Route,v4里可以随便什么<div>就可以
+            Router可以放最外层保证了几个点  1.要在Route外面 2.要有根元素
+            点击关于  首页组件就会被销毁掉
+            用BrowserRouter无法匹配  主要是因为a标签  改用Link
+            */}
+            
+              <Route path="/home" component={Home}></Route>
+              <Route path="/about" component={About}></Route>
+            
+          </div>
+          </Router>
+        )
+      }
+    }
+
+    function Home(props){
+      return(<h1>首页</h1>)
+    }
+
+    function About(props){
+      return(<h1>关于。。。</h1>)
+    }
+    
+    ReactDOM.render(<App />,document.getElementById('root'))
+    
+    
+    </script>
+  
+</body>
+</html>

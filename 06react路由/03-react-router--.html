@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <!--
+    v4的react Router插件，react-router-dom
+
+    单页内视图切换：
+      视图容器/路径配置
+  -->
+    <div id='root'></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./react-router-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+
+    // const Route = ReactRouterDOM.Route
+    // const Router=ReactRouterDOM.BrowserRouter
+    //用LINK 不管HASH还是Browser模式都能用   同时也是要导入
+
+    const {Route,HashRouter:Router,Link} = ReactRouterDOM
+
+    class App extends React.Component{
+
+      render(){
+        return(
+          <Router>
+          <div>
+            <p>
+              <Link to="/home">首页</Link>  
+              <Link to="/about">关于</Link>  
+            </p>  
+              <Route path="/home" component={Home}></Route>
+              <Route path="/about" component={About}></Route>
+            
+          </div>
+          </Router>
+        )
+      }
+    }
+
+    function Home(props){
+      return(<h1>首页</h1>)
+    }
+
+    function About(props){
+      return(<h1>关于。。。</h1>)
+    }
+    
+    ReactDOM.render(<App />,document.getElementById('root'))
+    
+    
+    </script>
+  
+</body>
+</html>
