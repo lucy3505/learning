@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src='./babel.min.js'></script>
+  <script src='./react.js'></script>
+  <script src='./react-dom.js'></script>
+  <script type="text/babel">
+    
+  //react中的MVVM
+  class App extends React.Component{
+    constructor(props){
+      super(props)
+      this.favList=['吃饭','睡觉','打豆豆','游戏']
+      let fav=[]
+      this.favList.map(val => {
+        fav.push({checked:false,contnet:''})
+        return false
+      })
+      this.state={
+        fav:fav
+    }
+    }
+
+    addFav=(i,val)=>{
+      let isChecked = !this.state.fav[i].isChecked
+      let content = isChecked ? val : ''
+      this.setState({
+        fav:[...this.state.fav.slice(0,i),
+            Object.assign({},this.state.fav[i],{isChecked,content}),
+            ...this.state.fav.slice(i+1)
+        ]
+      })
+    }
+
+    render(){
+      // debugger
+      return (
+        <div>
+        <span>爱好：</span>
+        {this.favList.map((val,index)=>{
+          return(
+            <label key={index}><input type='checkbox' onChange={()=>{this.addFav(index,val)}} checked={this.state.fav[index].isChecked}/>{val}</label>
+          )
+        })}
+          
+          <p>你的爱好:{this.state.fav.map((val,index)=>{
+            return(<span key={index}>{val.content}</span>)
+          })}</p>
+        </div>
+      )
+    }
+  }
+  
+  ReactDOM.render(<App />,document.getElementById('root'))
+  </script>
+</body>
+</html>

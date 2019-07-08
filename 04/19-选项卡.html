@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .active{
+      color:red
+    }
+  
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src='./babel.min.js'></script>
+  <script src='./react.js'></script>
+  <script src='./react-dom.js'></script>
+  <script type="text/babel">
+    
+  
+  class App extends React.Component{
+    constructor(props){
+      super(props)
+      this.header=['选项卡1','选项卡2','选项卡3']
+      this.content=['选项1内容','选项2内容','选项3内容']
+      this.state={
+        index:0,
+           }
+    }
+    change=(e)=>{
+      this.setState({
+        msg:e.target.value
+      })
+    }
+
+    changeIndex=(i)=>{
+      this.setState({
+        index:i
+      })
+    }
+
+    render(){
+      console.log(this.header)
+      return (
+        <div>
+          <Header content={this.header}
+                  changeIndex={this.changeIndex}
+          />
+          <Box content={this.content}
+              index={this.state.index}
+          />
+        </div>
+      )
+    }
+  }
+
+
+  class Header extends React.Component{
+    constructor(props){
+      super(props)
+      this.state={
+        index:0,
+        active:'active'
+      }
+    }
+
+    changeIndex=(index)=>{
+      const {changeIndex}=this.props
+      changeIndex(index)
+      this.setState({index:index})
+    }
+    render(){
+      const{content}=this.props
+      return (
+        <div>
+          {
+            content.map((val,idx)=>{
+              return(<button onClick={()=>{this.changeIndex(idx)} } className={this.state.index==idx?this.state.active:''} key={idx}>{val}</button>)
+            })
+          }
+        </div>
+      )
+    }
+  }
+  class Box extends React.Component{
+    
+    render(){
+      const index=this.props.index.toString()
+      return(
+        <div>
+          {index && this.props.content[index]}
+        </div>
+      )
+    }
+  }
+  
+  ReactDOM.render(<App />,document.getElementById('root'))
+  </script>
+</body>
+</html>

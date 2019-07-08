@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src='./babel.min.js'></script>
+  <script src='./react.js'></script>
+  <script src='./react-dom.js'></script>
+  <script type="text/babel">
+    
+  //react中的MVVM
+  class App extends React.Component{
+    constructor(props){
+      super(props)
+      this.state={
+        msg:''
+           }
+    }
+    change=(e)=>{
+      this.setState({
+        msg:e.target.value
+      })
+    }
+    render(){
+      return (
+        <div>
+          <input onKeyUp={this.change}/>
+          <p>{this.state.msg}</p>
+        </div>
+      )
+    }
+  }
+  
+  ReactDOM.render(<App />,document.getElementById('root'))
+  </script>
+</body>
+</html>

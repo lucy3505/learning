@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src='./babel.min.js'></script>
+  <script src='./react.js'></script>
+  <script src='./react-dom.js'></script>
+  <script type="text/babel">
+    
+  //react中的MVVM
+  class App extends React.Component{
+    constructor(props){
+      super(props)
+      this.province=['上海','浙江']
+      this.city={'浙江':['杭州','嘉兴'],
+                 '上海':['杨浦','宝山']
+      
+      }
+
+      this.state={
+        city:'上海'
+    }
+    }
+
+    addFav=(i,val)=>{
+      let isChecked = !this.state.fav[i].isChecked
+      let content = isChecked ? val : ''
+      this.setState({
+        fav:[...this.state.fav.slice(0,i),
+            Object.assign({},this.state.fav[i],{isChecked,content}),
+            ...this.state.fav.slice(i+1)
+        ]
+      })
+    }
+
+    handleChangeCity=(e)=>{
+      this.setState({
+        city:e.target.value
+      })
+    }
+
+    render(){
+      // debugger
+      //select的onchange会得到option的value值，如果option没写value则select Onchange得到的e.target.value就和option的text值一样
+      return (
+        <div>
+          <select onChange={this.handleChangeCity}>
+            {this.province.map((val,index)=>{
+              return (
+                <option key={index}>{val}</option>
+              )
+            })}
+          </select>
+          <select>
+            {this.city[this.state.city].map((val,index)=>{
+              return (
+                <option key={index}>{val}</option>
+              )
+            })}
+          
+          </select>
+        </div>
+      )
+    }
+  }
+  
+  ReactDOM.render(<App />,document.getElementById('root'))
+  </script>
+</body>
+</html>
