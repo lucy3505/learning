@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <h3>git log</h3>
+  <p>历史记录：git log命令显示从最近到最远的提交日志  按向下箭头继续查看</p>
+  <p>--pretty=oneline参数：如果嫌输出信息太多，看得眼花缭乱的，可以试试加上</p>
+  <p>你看到的一大串类似1094adb...的是commit id（版本号）</p>
+  <h3>回退上一版本：  $ git reset --hard HEAD^</h3>
+  <h3>或者：$ git reset --hard id号</h3>
+ 
+  <p>上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100。</p>
+  <p>然我们用git log再看看现在版本库的状态：最新版本就不见了</p>
+  <p>要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。</p>
+  <h4>版本回退后如果要push,push的时候要加--force</h4>
+
+</body>
+</html>
