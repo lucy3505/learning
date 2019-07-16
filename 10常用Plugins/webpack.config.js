@@ -43,7 +43,7 @@ module.exports = {
   plugins: [
     new webpack.BannerPlugin('版权所有，翻版必纠'),
     new HtmlWebpackPlugin({
-      templat:__dirname + "/app/index.tmpl.html" //new 一个这个插件得实例
+      template:__dirname + "/app/index.tmpl.html" //new 一个这个插件得实例
     }),
     new webpack.HotModuleReplacementPlugin()//热加载插件
   ]
