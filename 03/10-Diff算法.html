@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <pre>
+    数据发生了变化会去进行比对，数据得变化要嘛state要嘛props
+    都是你调用setState得时候数据才发生变化，setState又是个异步函数，为了提升react性能，如果连续调用3个setState，react会进行合并，再去比对
+    Diff算法就是两个虚拟DOM进行比对得时候进行得算法：
+    1.同级比对，1级1级往下比，只要有1级虚拟DOM节点不同，这级DOM后面得DOM节点就都被销毁，重新生成下面新得虚拟DOM节点，这样做可能造成生成新DOM得浪费，但这样算法简单，比对速度快。
+    2.key值比对，在做DOM循环时，每个虚拟DOM没有key值得话比对就会变慢，且key值最好不要用index,因为当你重新渲染页面，key值变得话，整个虚拟DOM又要重新渲染
+
+
+
+
+  </pre>
+  
+</body>
+</html>

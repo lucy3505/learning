@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  在react中，可以用e.target得到DOM节点，也可以用ref
+  ref={(input)=>{this.input = input}}
+  input就是DOM节点
+  尽量不要用ref
+  <pre>
+    handleBtnClick() {
+    this.setState((prevState)=>{
+      list:[...prevState.list,prevState.inputValue],
+      inputValue:''
+    }))
+    console.log(this.ul.querySelectorAll('div').length;
+  }
+  setState是异步函数，所以不会立即被执行，console.log会在setState前面执行
+  这时候
+  this.setState((prevState)=>{
+    list:[...prevState.list,prevState.inputValue],
+    inputValue:''
+  }),()=>{
+    console.log(...)
+  })
+  setState得第二个参数是个回调函数，会在setState执行后再执行
+
+
+  </pre>
+  
+</body>
+</html>
