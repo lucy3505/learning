@@ -1,7 +1,4 @@
 {
-<<<<<<< HEAD
-  "presets":["react","env"]
-=======
   "presets": ["react", "env"],
   "env": {
     "development": {
@@ -16,5 +13,4 @@
     }]]
     }
   }
->>>>>>> afd3df44392b2fc9543b8b65fc70de9db9179157
 }

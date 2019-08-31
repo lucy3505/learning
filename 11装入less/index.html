@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <pre>
+
+    {
+      test: /\.less$/,
+      exclude: [/node_modules/],
+      use: [
+          require.resolve('style-loader'),
+          {
+              loader: require.resolve('css-loader'),
+              options: {
+                  importLoaders: 1,
+                  modules: true,
+                  localIdentName:"[name]__[local]___[hash:base64:10]"
+              },
+          },
+          // {
+          //     // loader: require.resolve('postcss-loader'),
+          // },
+          {
+              loader: require.resolve('less-loader'), // compiles Less to CSS
+          },
+        ],
+      },
+
+
+  </pre>
+
+    <p>要安装less-loader 还有less 模块</p>
+
+    <p>要在less里用背景图片，用了相对路径来引入图片  background: url(../assets/img/logo.png);，这时候会报无法解析图片</p>
+    <p>这是在webpack.config.js里要做设置</p>
+
+    <pre>
+      {
+        // Exclude `js` files to keep "css" loader working as it injects
+        // its runtime that would otherwise processed through "file" loader.
+        // Also exclude `html` and `json` extensions so they get processed
+        // by webpacks internal loaders.
+        // exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
+        test: /\.png$/,
+        loader: require.resolve('file-loader'),
+        // options: {
+        //   name: 'static/media/[name].[hash:8].[ext]',
+        // },
+      },
+    </pre>
+
+    <p>要用多个样式</p>
+
+    <pre>
+        import classNames from 'classnames'
+      npm i classnames --save-dev
+      className={classNames(styles.left,styles.active)}
+    </pre>
+    <p>样式里要给属性设置样式  例如给input里的placeholder设样式</p>
+
+    <pre>
+        &::placeholder{
+          color:#999
+        }
+
+
+    </pre>
+
+
+    <p>要变全局变量就要:global,不管是在什么文件样式里</p>
+
+    <p>无法使用箭头函数，这时候要安装</p>
+     
+
+      <pre>
+          npm install babel-preset-es2015 --save-dev
+          npm install --save-dev babel-preset-stage-0
+
+
+          .babelrc里面：
+          "presets": ["react", "env","es2015","stage-0"],
+
+
+      </pre>
+
+      <p>redux</p>
+      <pre>
+
+          npm i redux react-redux --save-dev
+
+
+
+          import { createStore } from 'redux'
+          import reducer from './reducer'
+
+          const store = createStore(reducer)
+
+          export default store
+
+
+
+
+      </pre>
+
+      <pre>
+        redux
+        套路：先创建action,再给store 再去reducer，reducer再返回store,数据更新
+
+
+
+      </pre>
+</body>
+</html>

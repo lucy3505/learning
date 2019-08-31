@@ -149,5 +149,27 @@
     };
   </pre>
 
+<<<<<<< HEAD
+=======
+  <p>这里localIdentName会报错，可能是css-loader版本问题，安装 "css-loader": "^0.28.7",</p>
+
+  <p>我们在app文件夹下创建一个Greeter.css文件来进行一下测试</p>
+  <pre>
+    /* Greeter.css */
+      .root {
+        background-color: #eee;
+        padding: 10px;
+        border: 3px solid #ccc;
+      }
+
+      导入.root到Greeter.js中
+
+      import styles from './Greeter.css';//导入
+
+  </pre>
+
+  <p>CSS modules 也是一个很大的主题，有兴趣的话可以去其https://github.com/css-modules/css-modules了解更多。</p>
+
+>>>>>>> afd3df44392b2fc9543b8b65fc70de9db9179157
 </body>
 </html>
