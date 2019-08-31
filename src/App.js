@@ -1,5 +1,5 @@
 import React ,{ Component } from 'react'
-import Header from './Header/index.js'
+import Header from './common/Header/index.js'
 import store from './store'
 import { Provider } from 'react-redux'
 
