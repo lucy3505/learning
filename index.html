@@ -1,12 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document1</title>
+  <style>
+    .c1 {
+      color: #6ee4a9;
+    }
+  </style>
 </head>
+
 <body>
-  
+
 </body>
+<script>
+  var time = setTimeout(fn, 1000)
+  function fn() {
+    console.log('1111')
+  }
+  // function foo() {
+  //   var a = 2;
+  //   var c = 0
+  //   function bar() {
+  //     var b = 1
+  //     console.log(b)
+  //     console.log(a)
+  //     debugger
+  //   }
+  //   bar()
+  // }
+  // foo()
+
+  function foo() {
+    var a = 2;
+    function bar() {
+      var b = 1
+      console.log(b)
+      console.log(a)//!这句才产生了闭包,没有这句就没有闭包，上面那句不产生闭包，没有引用外部变量
+    }
+    return bar
+  }
+  var baz = foo()
+  debugger
+</script>
+
 </html>
